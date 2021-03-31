@@ -10,6 +10,7 @@ import java.util.Objects;
 import common.ValidationException;
 import entity.BloodDonation;
 import entity.Person;
+import java.time.Clock;
 import java.util.function.ObjIntConsumer;
 
 /**
@@ -139,21 +140,18 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
     @Override
     public List<?> extractDataAsList(DonationRecord e) {
 
-        if (!(e.getPerson().getId().equals("")) && !(e.getBloodDonation().getId().equals(""))) {
-            return Arrays.asList( e.getId(), e.getPerson().getId(), e.getBloodDonation().getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
+        if (e.getPerson() == null && e.getBloodDonation() == null) {
+            return Arrays.asList( e.getId(), "null", "null", e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
             
-        } else if (e.getPerson().getId().equals("") && e.getBloodDonation().getId().equals("")) {
-            return Arrays.asList(  e.getId(), "null", "null", e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
+        } else if (e.getPerson() == null) {
+            return Arrays.asList(  e.getId(), "null", e.getBloodDonation().getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
             
-        } else if (!(e.getBloodDonation().getId().equals(""))) {
-            return Arrays.asList( e.getId(), "null", e.getBloodDonation().getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
+        } else if (e.getBloodDonation() == null) {
+            return Arrays.asList( e.getId(), e.getPerson().getId(), "null", e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
             
         } else{
-            return Arrays.asList( e.getId(), e.getPerson().getId(), "null", e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
+            return Arrays.asList( e.getId(), e.getPerson().getId(), e.getBloodDonation().getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
         }
-        
-//        return Arrays.asList( e.getId(), "null", "null", e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
-   
     }
     
 
