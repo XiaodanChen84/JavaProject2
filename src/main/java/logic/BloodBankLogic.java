@@ -121,6 +121,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
   }
   else{
            return Arrays.asList(e.getId(), "null", e.getName(),
+                   
              e.getPrivatelyOwned(), e.getEstablished(),
              e.getEmplyeeCount());
   }
