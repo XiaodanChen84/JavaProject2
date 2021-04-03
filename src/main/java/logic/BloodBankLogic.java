@@ -59,8 +59,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
   public BloodBank createEntity(Map<String, String[]> parameterMap ){
       Objects.requireNonNull(parameterMap, "parameterMap can not be null");
       BloodBank entity = new BloodBank();
-      
-  
+        
       if(parameterMap.containsKey(ID)){
           try{
           entity.setId(Integer.parseInt(parameterMap.get(ID)[0]));
@@ -114,16 +113,9 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
              EMPLOYEE_COUNT);
  } 
  public List<?> extractDataAsList(BloodBank e) {
-  if(e.getOwner() != null){
-         return Arrays.asList(e.getId(), e.getOwner().getId(), e.getName(),
-             e.getPrivatelyOwned(), e.getEstablished(),
-             e.getEmplyeeCount());
-  }
-  else{
-           return Arrays.asList(e.getId(), "null", e.getName(),                   
-             e.getPrivatelyOwned(), e.getEstablished(),
-             e.getEmplyeeCount());
-  }
+
+return Arrays.asList( e.getId(),  e.getOwner()==null?"null": e.getOwner().getId(),
+        e.getName(), e.getPrivatelyOwned(), e.getEstablished(), e.getEmplyeeCount());
      
   } 
 }
