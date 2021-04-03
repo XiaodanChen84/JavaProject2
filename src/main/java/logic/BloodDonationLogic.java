@@ -72,8 +72,7 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         bdEntity.setBloodGroup(BloodGroup.valueOf(parameterMap.get(BLOOD_GROUP)[0]));
         bdEntity.setRhd(RhesusFactor.getRhesusFactor(parameterMap.get(RHESUS_FACTOR)[0]));
         bdEntity.setCreated(convertStringToDate(parameterMap.get(CREATED)[0]));
-        bdEntity.setBloodBank(new BloodBank(Integer.parseInt(parameterMap.get(BANK_ID)[0])));
-
+        
         // no string,no need to validate for bollod_group,reh ENUM,milliters,datetime  
         return bdEntity;
     }
