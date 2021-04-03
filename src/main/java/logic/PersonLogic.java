@@ -70,7 +70,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     @Override
     public List<?> extractDataAsList(Person e) {
-        return Arrays.asList( e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), e.getBirth(), e.getId() );
+        return Arrays.asList( e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()), e.getId() );
     }
 
     @Override
@@ -122,7 +122,6 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
         entity.setAddress(address);
         entity.setBirth(convertStringToDate(birth));
 
-     
         return entity;
     }
 
