@@ -14,7 +14,7 @@ import logic.LogicFactory;
 
 /**
  *
- * @author danpi
+ * @author danping tang
  */
 @WebServlet(name = "CreateBloodDonation", urlPatterns = {"/CreateBloodDonation"})
 public class CreateBloodDonation extends HttpServlet {
@@ -25,17 +25,16 @@ public class CreateBloodDonation extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Create Account</title>");
+            out.println("<title>Create BloodDonation</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<div style=\"text-align: center;\">");
             out.println("<div style=\"display: inline-block; text-align: left;\">");
             out.println("<form method=\"post\">");
-            out.println("Blood BankID:<br>");
+            out.println("BloodBankID:<br>");
             //instead of typing the name of column manualy use the static vraiable in logic
             //use the same name as column id of the table. will use this name to get date
             //from parameter map.
@@ -47,10 +46,10 @@ public class CreateBloodDonation extends HttpServlet {
             out.println("Blood Group:<br>");
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.BLOOD_GROUP);
             out.println("<br>");
-            out.println("Rhesus Factor:<br>");
+            out.println("Rh Factor:<br>");
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.RHESUS_FACTOR);
             out.println("<br>");
-            out.println("Created Date and Time:<br>");
+            out.println("Created DateTime:<br>");
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.CREATED);
             out.println("<br>");
             out.println("<input type=\"submit\" name=\"view\" value=\"Add and View\">");
@@ -111,7 +110,7 @@ public class CreateBloodDonation extends HttpServlet {
             processRequest( request, response );
         } else if( request.getParameter( "view" ) != null ){
             //if view button is pressed redirect to the appropriate table
-            response.sendRedirect( "AccountTable" );
+            response.sendRedirect( "BloodDonationTable" );
         }
     }
 
