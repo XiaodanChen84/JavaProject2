@@ -42,7 +42,7 @@ public class BloodBankDAL extends GenericDAL <BloodBank>{
     
     public List<BloodBank> findByEstablished(Date established){
         Map<String, Object> map = new HashMap<>();
-        map.put("estalished", established);
+        map.put("established", established);
         return findResults("BloodBank.findByEstablished", map);
     }
     
