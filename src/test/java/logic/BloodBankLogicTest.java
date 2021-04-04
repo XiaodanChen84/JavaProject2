@@ -31,6 +31,7 @@ public class BloodBankLogicTest {
 
     private BloodBankLogic logic;
     private BloodBank expectedEntity;
+    private Person owner;
 
     public BloodBankLogicTest() {
     }
@@ -51,8 +52,9 @@ public class BloodBankLogicTest {
         EntityManager em = EMFactory.getEMF().createEntityManager();
         em.getTransaction().begin();
         BloodBank entity = new BloodBank();
-
-        entity.setOwner(new Person(Integer.parseInt("5")));
+        owner=new Person(null,"first","last","12345678901","abc",logic.convertStringToDate("2000-01-01 12:00:00"));
+        em.persist(owner);
+        entity.setOwner(owner);
         entity.setName("bbank");
         entity.setEstablished(logic.convertStringToDate("2020-03-20 03:20:00"));
 
@@ -70,6 +72,10 @@ public class BloodBankLogicTest {
     public void tearDown() throws Exception {
         if (expectedEntity != null) {
             logic.delete(expectedEntity);
+        }
+        if(owner!=null){
+            PersonLogic pLogic = LogicFactory.getFor("Person");
+            pLogic.delete(owner);
         }
     }
 
@@ -91,7 +97,7 @@ public class BloodBankLogicTest {
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getPrivatelyOwned(), actual.getPrivatelyOwned());
         assertEquals(expected.getEstablished(), actual.getEstablished());
-        assertEquals(expected.getOwner(), actual.getOwner());
+        assertEquals(expected.getOwner().getId(), actual.getOwner().getId());
         assertEquals(expected.getEmplyeeCount(), actual.getEmplyeeCount());
 
     }
@@ -163,13 +169,15 @@ public class BloodBankLogicTest {
     @Test
     final void testCreateEntityAndAdd(){
          Map<String, String[]> sampleMap = new HashMap<>();
-         sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{"3"});
+         sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{"1"});
          sampleMap.put(BloodBankLogic.NAME, new String[]{"junit"});
-         sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{"test5"});
+         sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{"2000-01-01 03:00:00"});
          sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{"true"});
          sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{"test"});
          
          BloodBank returnedBloodBank = logic.createEntity(sampleMap);
+         int ownerID = Integer.parseInt(sampleMap.get(BloodBankLogic.OWNER_ID)[0]);
+         returnedBloodBank.setOwner(new Person(ownerID));
          logic.add(returnedBloodBank);
          
          returnedBloodBank = logic.getWithId(returnedBloodBank.getId());
@@ -330,8 +338,8 @@ public class BloodBankLogicTest {
     final void testExtractDataAsList(){
         List<?> list = logic.extractDataAsList( expectedEntity );
         assertEquals( expectedEntity.getId(), list.get( 0 ) );
-        assertEquals( expectedEntity.getName(), list.get( 1 ) );
-        assertEquals( expectedEntity.getOwner().getId(), list.get( 2 ) );
+        assertEquals( expectedEntity.getOwner().getId(), list.get( 1 ) );
+        assertEquals( expectedEntity.getName(), list.get( 2 ) );       
         assertEquals( expectedEntity.getPrivatelyOwned(), list.get( 3 ) );
         assertEquals( expectedEntity.getEstablished(), list.get( 4 ) );
         assertEquals( expectedEntity.getEmplyeeCount(), list.get( 5 ) );
