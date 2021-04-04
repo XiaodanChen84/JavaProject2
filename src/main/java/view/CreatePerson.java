@@ -76,19 +76,13 @@ public class CreatePerson extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log( "POST" );
         PersonLogic aLogic = LogicFactory.getFor( "Person" );
-//        String firstName = req.getParameter( PersonLogic.FIRST_NAME);
-//        String lastName = req.getParameter( PersonLogic.LAST_NAME);
-//        if( aLogic.getPersonWithFirstName(firstName) == null && aLogic.getPersonWithLastName(lastName) == null ){
-            try {
-                Person person = aLogic.createEntity( req.getParameterMap() );
-                aLogic.add( person );
-            } catch( Exception ex ) {
-                errorMessage = ex.getMessage();
-            }
-//        } else {
-//            //if duplicate print the error message
-//            errorMessage = "Name: \"" + firstName + "" + lastName + "\" already exists";
-//        }
+        try {
+            Person person = aLogic.createEntity( req.getParameterMap() );
+            aLogic.add( person );
+        } catch( Exception ex ) {
+            errorMessage = ex.getMessage();
+        }
+
         if( req.getParameter( "add" ) != null ){
             //if add button is pressed return the same page
             processRequest( req, resp );
