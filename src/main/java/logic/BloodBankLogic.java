@@ -90,10 +90,8 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
       String privatelyOwned = parameterMap.get(PRIVATELY_OWNED)[0];
       String established = parameterMap.get(ESTABLISHED)[0];
       String employeeCount = parameterMap.get(EMPLOYEE_COUNT)[0];
-      
-      entity.setOwner(new Person (Integer.parseInt(owner)));
-     
-      entity.setName(NAME);
+           
+      entity.setName(displayName);
       
       entity.setEstablished(convertStringToDate(established));
       
@@ -114,7 +112,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
  } 
  public List<?> extractDataAsList(BloodBank e) {
 
-return Arrays.asList( e.getId(),  e.getOwner()==null?"null": e.getOwner().getId(),
+return Arrays.asList( e.getId(), e.getOwner()==null?"null": e.getOwner().getId(),
         e.getName(), e.getPrivatelyOwned(), e.getEstablished(), e.getEmplyeeCount());
      
   } 
