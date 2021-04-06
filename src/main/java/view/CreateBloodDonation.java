@@ -1,4 +1,5 @@
 package view;
+import entity.BloodBank;
 import entity.BloodDonation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.BloodBankLogic;
 import logic.BloodDonationLogic;
 import logic.LogicFactory;
 
@@ -94,17 +96,18 @@ public class CreateBloodDonation extends HttpServlet {
         log( "POST" );
         BloodDonationLogic bdLogic = LogicFactory.getFor("BloodDonation");
         String bankID = request.getParameter( BloodDonationLogic.BANK_ID );
-        if( bdLogic.getBloodDonationsWithBloodBank(Integer.parseInt(bankID)) == null ){
+   
             try {
+            
+                BloodBankLogic bLogic=LogicFactory.getFor("BloodBank");
+                BloodBank bank=bLogic.getWithId(Integer.parseInt(bankID));
                 BloodDonation bloodDonation = bdLogic.createEntity(request.getParameterMap());
+                bloodDonation.setBloodBank(bank);             
                 bdLogic.add(bloodDonation );
             } catch( Exception ex ) {
                 errorMessage = ex.getMessage();
             }
-        } else {
-            //if duplicate print the error message
-            errorMessage = "bankID: \"" + bankID + "\" already exists";
-        }
+
         if( request.getParameter( "add" ) != null ){
             //if add button is pressed return the same page
             processRequest( request, response );
