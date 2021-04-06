@@ -9,7 +9,6 @@ import entity.RhesusFactor;
 import java.util.Arrays;
 import java.util.Date;
 import common.ValidationException;
-import entity.BloodBank;
 
 /**
  *
