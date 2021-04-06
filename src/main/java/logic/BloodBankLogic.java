@@ -86,7 +86,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
         validator.accept(displayName, 100);
       }
       
-      String owner = parameterMap.get(OWNER_ID)[0]; 
+ 
       String privatelyOwned = parameterMap.get(PRIVATELY_OWNED)[0];
       String established = parameterMap.get(ESTABLISHED)[0];
       String employeeCount = parameterMap.get(EMPLOYEE_COUNT)[0];
