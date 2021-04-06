@@ -111,14 +111,16 @@ public class CreateDonationRecord extends HttpServlet {
         // Format the date to be consistent in the DB
         Map map = new HashMap(request.getParameterMap());
         String date = logic.convertDateToString(new Date());
-        map.put(DonationRecordLogic.CREATED, date);
+        map.put(DonationRecordLogic.CREATED, new String [] { date });
         
         try {
             DonationRecord record = logic.createEntity( map );
             log(record.toString());
             logic.add(record);
+            errorNotice = "No Exception Occurred";
         } catch( Exception e) {
             errorNotice = e.getMessage();
+//            errorNotice = map.toString();
             e.printStackTrace();
         }
         
