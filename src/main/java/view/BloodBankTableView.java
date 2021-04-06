@@ -73,16 +73,16 @@ public class BloodBankTableView extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
             throws ServletException, IOException {
+       
         log( "GET" );
         processRequest( req, resp);
         
     }
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
             throws ServletException, IOException {
-    
+      
         log( "POST" );
         BloodBankLogic logic = LogicFactory.getFor( "BloodBank" );
         BloodBank bloodBank = logic.updateEntity(req.getParameterMap());
