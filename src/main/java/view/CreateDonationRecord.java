@@ -1,6 +1,8 @@
 package view;
 
+import entity.BloodDonation;
 import entity.DonationRecord;
+import entity.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -12,8 +14,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.BloodDonationLogic;
 import logic.DonationRecordLogic;
 import logic.LogicFactory;
+import logic.PersonLogic;
 
 /**
  *
@@ -40,6 +44,11 @@ public class CreateDonationRecord extends HttpServlet {
             out.println( "</head>" );
             out.println( "<body>" );
             
+//            if (errorNotice != null) {
+//                out.println ( " <script>function alert() { alert( " + errorNotice + " ); }");
+//                out.println ( " window.onload( alert() );");
+//            }
+//            
             // Container div and page title
             out.println( "<div class=\"container my-4\" style=\"width: 450px;\">" );
             out.println( "<h2>Add a Donation Record</h2>" );
@@ -69,10 +78,14 @@ public class CreateDonationRecord extends HttpServlet {
             out.println( "<label class=\"form-check-label\" for=\"testedFalse\">False</label>");
             out.println( "</div>");
             
-            //Submit button
-            out.println( "<div class=\"text-center\">");
-            out.println( "<button class=\"btn btn-primary my-2\" type=\"submit\">Add</button>");
-            out.println( "</div>" );
+            //Submit buttons
+            out.println( "<div class=\"row\">");
+            out.println( "<div class=\"col-1\"></div>");
+            out.println( "<input class=\"btn btn-primary my-2 col-4\" type=\"submit\" name=\"add\" value=\"Add\"></button>");
+            out.println( "<div class=\"col-2\"></div>");
+            out.println( "<input class=\"btn btn-primary my-2 col-4\" type=\"submit\" name=\"view\" value=\"Add & View\"></button>");
+            out.println( "<div class=\"col-1\"></div>");
+            out.println( "</div>" );      
             
             // End of form
             out.println( "</form>" );
@@ -113,18 +126,44 @@ public class CreateDonationRecord extends HttpServlet {
         String date = logic.convertDateToString(new Date());
         map.put(DonationRecordLogic.CREATED, new String [] { date });
         
+        String bloodDonationId = request.getParameter(DonationRecordLogic.DONATION_ID);
+        String personId = request.getParameter(DonationRecordLogic.PERSON_ID);
+        
         try {
             DonationRecord record = logic.createEntity( map );
-            log(record.toString());
+            
+            BloodDonationLogic bdLogic = LogicFactory.getFor("BloodDonation");
+            BloodDonation bloodDonation = bdLogic.getWithId(Integer.parseInt(bloodDonationId));
+            if (bloodDonation == null) {
+                errorNotice = "Blood Donation ID entered does not exist.";
+            }
+            record.setBloodDonation(bloodDonation);
+            
+            PersonLogic pLogic = LogicFactory.getFor("Person");
+            Person person = pLogic.getWithId(Integer.parseInt(personId));
+            if (person == null) {
+                errorNotice = "Person ID entered does not exist.";
+            }
+            record.setPerson(person);
+
             logic.add(record);
-            errorNotice = "No Exception Occurred";
+            if (errorNotice != null) {               
+            } else {
+                errorNotice = "No Exception Occurred";
+            }
+
         } catch( Exception e) {
             errorNotice = e.getMessage();
-//            errorNotice = map.toString();
             e.printStackTrace();
         }
         
-        processRequest( request, response);
+        if( request.getParameter( "add") != null) {
+            processRequest( request, response);            
+        } else if ( request.getParameter( "view") != null) {
+            response.sendRedirect( "DonationRecordTable");
+        }
+        
+
     }
     
     private String toStringMap( Map<String, String[]> values ) {
