@@ -100,19 +100,38 @@ public class CreateBloodBank extends HttpServlet {
         BloodBankLogic logic = LogicFactory.getFor("BloodBank");
         String name = req.getParameter(BloodBankLogic.NAME);
         String owner = req.getParameter(BloodBankLogic.OWNER_ID);
-        if (owner == null||owner.length()==0||logic.getBloodBanksWithOwner(Integer.parseInt(owner)) == null||
-                name == null) {
-            try {
-                BloodBank bloodBank = logic.createEntity(req.getParameterMap());
+        Person person=null;
+        Integer ownerId=null;
+        try{
+            if(owner == null||owner.length()==0){
+                ownerId=Integer.parseInt(owner);
                 PersonLogic pLogic=LogicFactory.getFor("Person");
-                Person person=pLogic.getWithId(Integer.parseInt(owner));
-                bloodBank.setOwner(person);
-                logic.add(bloodBank);
-            } catch (Exception ex) {
-                errorMessage = ex.getMessage();
+                person=pLogic.getWithId(Integer.parseInt(owner));
             }
-        } else {
-            errorMessage = "Owner: \"" + owner + "\" already exists";
+        }catch(NumberFormatException e){
+            errorMessage="Onwer Id should be Integer";
+            if (req.getParameter("add") != null) {
+                processRequest(req, resp);
+            } else if (req.getParameter("view") != null) {
+                resp.sendRedirect("BloodBankTable");
+            }
+            return;
+        }
+        if(logic.getBloodBankWithName(name)==null){
+            if (ownerId==null||logic.getBloodBanksWithOwner(Integer.parseInt(owner)) == null) {
+                try {
+                    BloodBank bloodBank = logic.createEntity(req.getParameterMap());
+
+                    bloodBank.setOwner(person);
+                    logic.add(bloodBank);
+                } catch (Exception ex) {
+                    errorMessage = ex.getMessage();
+                }
+            } else {
+                errorMessage = "Owner: \"" + owner + "\" already exists";
+            }
+        }else{
+            errorMessage = "Name: \"" + name + "\" already exists";
         }
         if (req.getParameter("add") != null) {
             processRequest(req, resp);
