@@ -81,9 +81,9 @@ public class CreateDonationRecord extends HttpServlet {
             //Submit buttons
             out.println( "<div class=\"row\">");
             out.println( "<div class=\"col-1\"></div>");
-            out.println( "<input class=\"btn btn-primary my-2 col-4\" type=\"submit\" name=\"add\" value=\"Add\"></button>");
+            out.println( "<input class=\"btn btn-primary my-2 col-4\" type=\"submit\" name=\"add\" value=\"Add\">");
             out.println( "<div class=\"col-2\"></div>");
-            out.println( "<input class=\"btn btn-primary my-2 col-4\" type=\"submit\" name=\"view\" value=\"Add & View\"></button>");
+            out.println( "<input class=\"btn btn-primary my-2 col-4\" type=\"submit\" name=\"view\" value=\"Add & View\">");
             out.println( "<div class=\"col-1\"></div>");
             out.println( "</div>" );      
             
