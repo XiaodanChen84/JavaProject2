@@ -95,44 +95,37 @@ public class CreateBloodBank extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         log("POST");
         BloodBankLogic logic = LogicFactory.getFor("BloodBank");
-        String name = req.getParameter(BloodBankLogic.NAME);
+        PersonLogic personLogic = LogicFactory.getFor("Person");
         String owner = req.getParameter(BloodBankLogic.OWNER_ID);
-        Person person=null;
-        Integer ownerId=null;
+      
         try{
-            if(owner == null||owner.length()==0){
-                ownerId=Integer.parseInt(owner);
-                PersonLogic pLogic=LogicFactory.getFor("Person");
-                person=pLogic.getWithId(Integer.parseInt(owner));
-            }
-        }catch(NumberFormatException e){
-            errorMessage="Onwer Id should be Integer";
-            if (req.getParameter("add") != null) {
-                processRequest(req, resp);
-            } else if (req.getParameter("view") != null) {
-                resp.sendRedirect("BloodBankTable");
-            }
-            return;
-        }
-        if(logic.getBloodBankWithName(name)==null){
-            if (ownerId==null||logic.getBloodBanksWithOwner(Integer.parseInt(owner)) == null) {
-                try {
-                    BloodBank bloodBank = logic.createEntity(req.getParameterMap());
+            BloodBank bloodBank = logic.createEntity(req.getParameterMap());
+            if(owner.isEmpty()){
+                logic.add(bloodBank);
+            }else{
+                //foreign key, set dependence;
+                BloodBank bankExist = logic.getBloodBanksWithOwner(Integer.parseInt(owner));
+                if(bankExist == null) {
+                       Person person= personLogic.getWithId(Integer.parseInt(owner));
+                        if(person != null){
 
-                    bloodBank.setOwner(person);
-                    logic.add(bloodBank);
-                } catch (Exception ex) {
-                    errorMessage = ex.getMessage();
+                            bloodBank.setOwner(person);
+
+                            logic.add(bloodBank);  
+                       }else{
+                          errorMessage = "Person: \"" + person + "\" does not exist";
+                       }
+                } else {
+                    errorMessage = "Person: \"" + owner + "\" already exists in the bank";
                 }
-            } else {
-                errorMessage = "Owner: \"" + owner + "\" already exists";
-            }
-        }else{
-            errorMessage = "Name: \"" + name + "\" already exists";
-        }
+
+            }       
+        }catch(Exception e){
+            errorMessage = e.getMessage();
+        };
+
         if (req.getParameter("add") != null) {
             processRequest(req, resp);
         } else if (req.getParameter("view") != null) {
