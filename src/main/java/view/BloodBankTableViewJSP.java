@@ -21,7 +21,7 @@ import logic.LogicFactory;
  *
  * @author Jing Zhao
  */
-@WebServlet(name = "BloodBankTableViewJSP", urlPatterns = {"/BloodBankTableViewJSP"})
+@WebServlet(name = "BloodBankTableJSP", urlPatterns = {"/BloodBankTableJSP"})
 public class BloodBankTableViewJSP extends HttpServlet {
     
     private void fillTableData( HttpServletRequest req, HttpServletResponse resp)
@@ -74,7 +74,7 @@ public class BloodBankTableViewJSP extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException{
         log("POST");
-        BloodBankLogic logic = LogicFactory.getFor("Account");
+        BloodBankLogic logic = LogicFactory.getFor("BloodBank");
         if(req.getParameter("edit")!=null){
             BloodBank bloodBank = logic.updateEntity(req.getParameterMap());
             logic.update(bloodBank);
