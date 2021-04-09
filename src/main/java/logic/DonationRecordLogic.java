@@ -140,18 +140,9 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
     @Override
     public List<?> extractDataAsList(DonationRecord e) {
 
-        if (e.getPerson() == null && e.getBloodDonation() == null) {
-            return Arrays.asList( e.getId(), "null", "null", e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
-            
-        } else if (e.getPerson() == null) {
-            return Arrays.asList(  e.getId(), "null", e.getBloodDonation().getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
-            
-        } else if (e.getBloodDonation() == null) {
-            return Arrays.asList( e.getId(), e.getPerson().getId(), "null", e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
-            
-        } else{
-            return Arrays.asList( e.getId(), e.getPerson().getId(), e.getBloodDonation().getId(), e.getTested(), e.getAdministrator(), e.getHospital(), e.getCreated());
-        }
+return Arrays.asList( e.getId(),  e.getPerson()==null?"null": e.getPerson().getId(), 
+        e.getBloodDonation()==null?"null": e.getBloodDonation().getId(), e.getTested(), 
+        e.getAdministrator(), e.getHospital(), e.getCreated());
     }
     
 
