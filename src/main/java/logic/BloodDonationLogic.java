@@ -50,6 +50,7 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
     @Override
     public List<?> extractDataAsList(BloodDonation e) {
             return Arrays.asList(e.getId(), e.getBloodBank()==null?"null":e.getBloodBank().getId(), e.getMilliliters(), e.getBloodGroup().toString(), e.getRhd().getSymbol(), convertDateToString(e.getCreated()));
+//            return Arrays.asList(e.getId(), e.getBloodBank().getId(), e.getMilliliters(), e.getBloodGroup().toString(), e.getRhd().getSymbol(), convertDateToString(e.getCreated()));
     }
 
     @Override
@@ -67,10 +68,14 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
                 throw new ValidationException(ex);
             }
         }
+        
+        String created = parameterMap.get(CREATED)[0];
+        created = created.replaceAll("T", " ");
+        
         bdEntity.setMilliliters(Integer.parseInt(parameterMap.get(MILLILITERS)[0]));
         bdEntity.setBloodGroup(BloodGroup.valueOf(parameterMap.get(BLOOD_GROUP)[0]));
         bdEntity.setRhd(RhesusFactor.getRhesusFactor(parameterMap.get(RHESUS_FACTOR)[0]));
-        bdEntity.setCreated(convertStringToDate(parameterMap.get(CREATED)[0]));
+        bdEntity.setCreated(convertStringToDate(created));
         
         // no string,no need to validate for bollod_group,reh ENUM,milliters,datetime  
         return bdEntity;
