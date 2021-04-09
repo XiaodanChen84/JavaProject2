@@ -90,33 +90,44 @@ public class CreateBloodDonation extends HttpServlet {
         log("GET");
         processRequest(request, response);
     }
-     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response )
+      @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        log( "POST" );
+        log("POST");
         BloodDonationLogic bdLogic = LogicFactory.getFor("BloodDonation");
-        String bankID = request.getParameter( BloodDonationLogic.BANK_ID );
-   
-            try {
-            
-                BloodBankLogic bLogic=LogicFactory.getFor("BloodBank");
-                BloodBank bank=bLogic.getWithId(Integer.parseInt(bankID));
-                BloodDonation bloodDonation = bdLogic.createEntity(request.getParameterMap());
-                bloodDonation.setBloodBank(bank);             
-                bdLogic.add(bloodDonation );
-            } catch( Exception ex ) {
-                errorMessage = ex.getMessage();
-            }
+        String bankID = request.getParameter(BloodDonationLogic.BANK_ID);
+        
+        try {
+            BloodDonation bloodDonation = bdLogic.createEntity(request.getParameterMap());
+            // first check user input is empty
+            if ( bankID.isEmpty()) {
+                   bdLogic.add(bloodDonation);
+            } else {
+                //foreign key ,set dependence
+                BloodBankLogic bkLogic = LogicFactory.getFor("BloodBank");
+                BloodBank bank = bkLogic.getWithId(Integer.parseInt(bankID));
+                //Check user input bankID if is exsit in bloodbank
+                if (bank !=null ) {
+                        bloodDonation.setBloodBank(bank);
+                        bdLogic.add(bloodDonation);
 
-        if( request.getParameter( "add" ) != null ){
+                }else{
+                      //if duplicate print the error message
+                errorMessage = "Blood Bank: \"" + bankID + "\" does not exist";
+                }
+            }
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+        }
+
+        if (request.getParameter("add") != null) {
             //if add button is pressed return the same page
-            processRequest( request, response );
-        } else if( request.getParameter( "view" ) != null ){
+            processRequest(request, response);
+        } else if (request.getParameter("view") != null) {
             //if view button is pressed redirect to the appropriate table
-            response.sendRedirect( "BloodDonationTable" );
+            response.sendRedirect("BloodDonationTable");
         }
     }
-
         /**
      * Returns a short description of the servlet.
      *
