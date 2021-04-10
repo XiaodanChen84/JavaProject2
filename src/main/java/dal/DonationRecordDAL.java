@@ -1,5 +1,6 @@
 package dal;
 
+import entity.BloodBank;
 import entity.DonationRecord;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,6 +68,12 @@ public class DonationRecordDAL extends GenericDAL<DonationRecord> {
         Map<String, Object> map = new HashMap<>();
         map.put( "donationId", donationId);
         return findResults( "DonationRecord.findByDonation", map);
+    }
+    
+       public List<DonationRecord> findContaining(String search){
+        Map<String, Object> map = new HashMap<>();
+        map.put("search", search);
+        return findResults( "DonationRecord.search", map);
     }
 
 }

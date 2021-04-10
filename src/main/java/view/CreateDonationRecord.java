@@ -162,8 +162,7 @@ public class CreateDonationRecord extends HttpServlet {
         } else if ( request.getParameter( "view") != null) {
             response.sendRedirect( "DonationRecordTable");
         }
-        
-
+  
     }
     
     private String toStringMap( Map<String, String[]> values ) {
