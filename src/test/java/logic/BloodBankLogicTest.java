@@ -35,6 +35,9 @@ public class BloodBankLogicTest {
 
     public BloodBankLogicTest() {
     }
+    
+
+           
 
     @BeforeAll
     public static void setUpClass() throws Exception {
@@ -93,13 +96,20 @@ public class BloodBankLogicTest {
 
     //helper method
     private void assertBloodBankEquals(BloodBank expected, BloodBank actual) {
-//       assertEquals(expected.getId(), actual.getId());
+        assertBloodBankEquals(expected, actual, true);
+
+    }
+    
+   private void assertBloodBankEquals(BloodBank expected, BloodBank actual, boolean hasDependency){
+       // assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getPrivatelyOwned(), actual.getPrivatelyOwned());
         assertEquals(expected.getEstablished(), actual.getEstablished());
         //assertEquals(expected.getOwner(), actual.getOwner());
         assertEquals(expected.getEmplyeeCount(), actual.getEmplyeeCount());
-
+        if(hasDependency){
+            assertEquals(expected.getOwner().getId(), actual.getOwner().getId());
+        }
     }
 
     @Test
@@ -183,7 +193,7 @@ public class BloodBankLogicTest {
          returnedBloodBank = logic.getWithId(returnedBloodBank.getId());
          //assertEquals(sampleMap.get(BloodBankLogic.OWNER_ID)[0],returnedBloodBank.getOwner());
          assertEquals(sampleMap.get(BloodBankLogic.NAME)[0], returnedBloodBank.getName());
-         assertEquals(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED)[0], returnedBloodBank.getPrivatelyOwned());
+         assertEquals(Boolean.parseBoolean(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED)[0]), returnedBloodBank.getPrivatelyOwned());
          assertEquals(sampleMap.get(BloodBankLogic.ESTABLISHED)[0],returnedBloodBank.getEstablished());
          assertEquals(sampleMap.get(BloodBankLogic.EMPLOYEE_COUNT)[0], returnedBloodBank.getEmplyeeCount());
          
@@ -206,6 +216,8 @@ public class BloodBankLogicTest {
         assertEquals(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED)[0], String.valueOf(returnBloodBank.getPrivatelyOwned()));
         assertEquals(sampleMap.get(BloodBankLogic.ESTABLISHED)[0],logic.convertDateToString(returnBloodBank.getEstablished()));
         assertEquals(sampleMap.get(BloodBankLogic.EMPLOYEE_COUNT)[0], String.valueOf(returnBloodBank.getEmplyeeCount()));
+   
+    
     }
     
     @Test
@@ -302,7 +314,7 @@ public class BloodBankLogicTest {
          assertEquals(sampleMap.get(BloodBankLogic.NAME)[0], returnedBloodBank.getName());
         // assertEquals(Integer.parseInt(sampleMap.get(BloodBankLogic.OWNER_ID)[0]), returnedBloodBank.getOwner().getId());
          
-         assertEquals(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED)[0], returnedBloodBank.getPrivatelyOwned());
+         assertEquals(Boolean.parseBoolean(sampleMap.get(BloodBankLogic.PRIVATELY_OWNED)[0]), returnedBloodBank.getPrivatelyOwned());
         
          assertEquals(sampleMap.get(BloodBankLogic.ESTABLISHED)[0], returnedBloodBank.getEstablished());
          assertEquals(sampleMap.get(BloodBankLogic.EMPLOYEE_COUNT)[0], returnedBloodBank.getEmplyeeCount());
