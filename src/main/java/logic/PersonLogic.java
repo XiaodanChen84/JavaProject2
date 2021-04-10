@@ -99,17 +99,13 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
                 throw new ValidationException( error );
             }
         };
-        String displayname = null;
-        if(parameterMap.containsKey(NAME)){
-            displayname = parameterMap.get(FIRST_NAME)[0] + parameterMap.get(LAST_NAME)[0];
-            validator.accept(displayname, 100);
-        }
-      
+        
         String firstName = parameterMap.get(FIRST_NAME)[0]; 
         String lastName = parameterMap.get(LAST_NAME)[0];
         String phone = parameterMap.get(PHONE)[0];
         String address = parameterMap.get(ADDRESS)[0];
         String birth = parameterMap.get(BIRTH)[0];
+        birth = birth.replaceAll("T", "");
         
         validator.accept(firstName, 50);
         validator.accept(lastName, 50);
