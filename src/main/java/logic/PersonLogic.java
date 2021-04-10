@@ -105,6 +105,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
         String phone = parameterMap.get(PHONE)[0];
         String address = parameterMap.get(ADDRESS)[0];
         String birth = parameterMap.get(BIRTH)[0];
+
         birth = birth.replaceAll("T", "");
         
         validator.accept(firstName, 50);

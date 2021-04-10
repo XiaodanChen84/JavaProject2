@@ -64,5 +64,10 @@ public class BloodDonationDAL extends  GenericDAL<BloodDonation> {
         return findResults( "BloodDonation.findByBloodBank", map );
     }
     
+     public List<BloodDonation> findContaining(String search){
+        Map<String, Object> map = new HashMap<>();
+        map.put("search", search);
+        return findResults( "BloodDonation.search", map );
+    }
     
 }

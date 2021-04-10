@@ -16,6 +16,7 @@ import java.util.function.ObjIntConsumer;
  *
  * @author Jing Zhao
  */
+
 public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
    public static final String OWNER_ID = "owner_id";
    public static final String PRIVATELY_OWNED = "privately_owned";
@@ -24,39 +25,42 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
    public static final String EMPLOYEE_COUNT = "employee_count";
    public static final String ID = "id";     
 
-  BloodBankLogic() {
+   
+    BloodBankLogic() {
        super( new BloodBankDAL());
     }
 
-   public List<BloodBank> getAll(){
+    @Override
+    public List<BloodBank> getAll(){
        return get(()-> dal().findAll());
    } 
    
-   public BloodBank getWithId(int id){
+   @Override
+    public BloodBank getWithId(int id){
        return get(()-> dal().findById(id));
    }
-   
-  public BloodBank getBloodBankWithName(String name){
+
+    public BloodBank getBloodBankWithName(String name){
       return get(()-> dal().findByName(name));
    } 
   
-  public List<BloodBank> getBloodBankWithPrivatelyOwned(boolean privatelyOwned){
+    public List<BloodBank> getBloodBankWithPrivatelyOwned(boolean privatelyOwned){
        return get(()-> dal().findByPrivatelyOwned(privatelyOwned));
     } 
-  
-  public List<BloodBank> getBloodBankWithEstablished(Date established){
-      return get(()-> dal().findByEstablished(established));
-  } 
-  public BloodBank getBloodBanksWithOwner(int ownerId){
+      
+    public List<BloodBank> getBloodBankWithEstablished(Date established){
+       return get(()-> dal().findByEstablished(established));
+    } 
+    public BloodBank getBloodBanksWithOwner(int ownerId){
       return get(()-> dal().findByOwner(ownerId));
-  } 
-  
-  public List<BloodBank> getBloodBanksWithEmplyeeCount(int count){
+    } 
+    
+    public List<BloodBank> getBloodBanksWithEmplyeeCount(int count){
       return get(()-> dal().findByEmplyeeCount(count));
-  }
-  
-  // need modify later
-  public BloodBank createEntity(Map<String, String[]> parameterMap ){
+    }
+    
+    @Override
+    public BloodBank createEntity(Map<String, String[]> parameterMap ){
       Objects.requireNonNull(parameterMap, "parameterMap can not be null");
       BloodBank entity = new BloodBank();
         
@@ -79,41 +83,53 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
              throw new ValidationException( error);
           }
         };
-    
-      String displayName = null;
-      if(parameterMap.containsKey(NAME)){
+        String displayName = null;
+        if(parameterMap.containsKey(NAME)){
         displayName = parameterMap.get(NAME)[0];
-        validator.accept(displayName, 100);
-      }
+         validator.accept(displayName, 100);
+        }
+        
+        String privatelyOwned = parameterMap.get(PRIVATELY_OWNED)[0];
+        String established = parameterMap.get(ESTABLISHED)[0];
+        String employeeCount = parameterMap.get(EMPLOYEE_COUNT)[0];
+
+        entity.setName(displayName);
       
- 
-      String privatelyOwned = parameterMap.get(PRIVATELY_OWNED)[0];
-      String established = parameterMap.get(ESTABLISHED)[0];
-      String employeeCount = parameterMap.get(EMPLOYEE_COUNT)[0];
-           
-      entity.setName(displayName);
+        entity.setEstablished(convertStringToDate(established));
       
-      entity.setEstablished(convertStringToDate(established));
+        entity.setEmplyeeCount(Integer.parseInt(employeeCount));
       
-      entity.setEmplyeeCount(Integer.parseInt(employeeCount));
-      
-      entity.setPrivatelyOwned(Boolean.parseBoolean(privatelyOwned));
+        entity.setPrivatelyOwned(Boolean.parseBoolean(privatelyOwned));
      
-      return entity;
-  } 
-  
- public List<String> getColumnNames(){
+        return entity;
+    }
+    
+    @Override
+    public List<String> getColumnNames(){
      return Arrays.asList( "ID", "OWNER_ID", "NAME",  "PRIVATELY_OWNED", "ESTABLISHED",  
              "EMPLOYEE_COUNT");
- }
- public List<String> getColumnCodes(){
+    }
+    
+    @Override
+    public List<String> getColumnCodes(){
      return Arrays.asList( ID, OWNER_ID, NAME, PRIVATELY_OWNED, ESTABLISHED,  
              EMPLOYEE_COUNT);
- } 
- public List<?> extractDataAsList(BloodBank e) {
+    } 
+    
+    @Override
+    public List<?> extractDataAsList(BloodBank e) {
 
-return Arrays.asList( e.getId(), e.getOwner()==null?"null": e.getOwner().getId(),
+    return Arrays.asList( e.getId(), e.getOwner()==null?"null": e.getOwner().getId(),
         e.getName(), e.getPrivatelyOwned(), e.getEstablished(), e.getEmplyeeCount());
      
   } 
+
+
+   
+
+
+    
+    
+
+    
 }

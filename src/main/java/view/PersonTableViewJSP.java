@@ -1,6 +1,6 @@
 package view;
 
-import entity.BloodBank;
+import entity.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,42 +14,43 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.BloodBankLogic;
 import logic.LogicFactory;
+import logic.PersonLogic;
 
 /**
  *
- * @author Jing Zhao
+ * @author Admin
  */
-@WebServlet(name = "BloodBankTableJSP", urlPatterns = {"/BloodBankTableJSP"})
-public class BloodBankTableViewJSP extends HttpServlet {
-    
-    private void fillTableData( HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException{
-      String path = req.getServletPath();
-      req.setAttribute("entities", extractTableData(req));
-      req.setAttribute("request", toStringMap(req.getParameterMap()));
-      req.setAttribute("path", path);
-      req.setAttribute("title", path.substring(1));
-      req.getRequestDispatcher("/jsp/ShowTable-BloodBank.jsp" ).forward(req, resp);
+//@WebServlet(name = "PersonTableJSP", urlPatterns = {"/PersonTableJSP"})
+@WebServlet(name = "PersonTableJSP", urlPatterns = {"/PersonTableJSP"})
+public class PersonTableViewJSP extends HttpServlet {
+
+     private void fillTableData( HttpServletRequest req, HttpServletResponse resp )
+            throws ServletException, IOException {
+        String path = req.getServletPath();
+        req.setAttribute( "entities", extractTableData( req ) );
+        req.setAttribute( "request", toStringMap( req.getParameterMap() ) );
+        req.setAttribute( "path", path );
+        req.setAttribute( "title", path.substring( 1 ) );
+        req.getRequestDispatcher( "/jsp/ShowTable-Person.jsp" ).forward( req, resp );
     }
 
+
     private List<?> extractTableData(HttpServletRequest req) {
-        String search = req.getParameter("searchText");
-        BloodBankLogic logic = LogicFactory.getFor("BloodBank");
-        req.setAttribute("columnName", logic.getColumnNames());
-        req.setAttribute("columnCode", logic.getColumnCodes());
-        List<BloodBank> list;
-        if(search != null){
-            list = logic.search(search);
-        }else{
+        String search = req.getParameter( "searchText" );
+        PersonLogic logic = LogicFactory.getFor( "Person" );
+        req.setAttribute( "columnName", logic.getColumnNames() );
+        req.setAttribute( "columnCode", logic.getColumnCodes() );
+        List<Person> list;
+        if( search != null ){
+            list = logic.search( search );
+        } else {
             list = logic.getAll();
         }
-        if(list == null || list.isEmpty()){
+        if( list == null || list.isEmpty() ){
             return Collections.emptyList();
         }
         return appendDataToNewList( list, logic::extractDataAsList );
-       
     }
     
     private <T> List<?> appendDataToNewList(List<T> list, Function<T, List<?>> toArray){
@@ -58,26 +59,27 @@ public class BloodBankTableViewJSP extends HttpServlet {
         return newlist;
     }
 
-    private String toStringMap(Map<String, String[]> m) {
+    private Object toStringMap(Map<String, String[]> parameterMap) {
        StringBuilder builder = new StringBuilder();
-       m.keySet().forEach((k)->{
+       parameterMap.keySet().forEach((k)->{
            builder.append("Key=").append(k)
                   .append( ", ")
-                  .append( "Value/s=").append(Arrays.toString(m.get(k)))
+                  .append( "Value/s=").append(Arrays.toString(parameterMap.get(k)))
                   .append(System.lineSeparator());
            
        });
        return builder.toString();
        
     }
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException{
         log("POST");
-        BloodBankLogic logic = LogicFactory.getFor("BloodBank");
+        PersonLogic logic = LogicFactory.getFor("Person");
         if(req.getParameter("edit")!=null){
-            BloodBank bloodBank = logic.updateEntity(req.getParameterMap());
-            logic.update(bloodBank);
+            Person pplPerson = logic.updateEntity(req.getParameterMap());
+            logic.update(pplPerson);
         }else if(req.getParameter("delete")!= null){
             String[] ids = req.getParameterMap().get("deleteMark");
             for(String id: ids){
@@ -110,7 +112,7 @@ public class BloodBankTableViewJSP extends HttpServlet {
     
     @Override
     public String getServletInfo() {
-        return "BloodBank Table using JSP";
+        return "Person Table using JSP";
     }
     
     private static final boolean DEBUG = true;
@@ -126,4 +128,5 @@ public class BloodBankTableViewJSP extends HttpServlet {
         getServletContext().log( message, t );
     }
     
+
 }

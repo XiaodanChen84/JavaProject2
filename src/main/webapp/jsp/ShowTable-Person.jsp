@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ShowTable-BloodBank
-    Created on : Apr. 5, 2021, 6:03:32 p.m.
-    Author     : Jing Zhao
+    Document   : ShowTable-People
+    Created on : Apr. 10, 2021, 12:08:00 a.m.
+    Author     : Xiaodan Chen
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

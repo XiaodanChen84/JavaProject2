@@ -124,12 +124,19 @@ class BloodDonationTest {
      */
     private void assertBloodDonationEquals(BloodDonation expected, BloodDonation actual) {
         //assert all field to guarantee they are the same
+        assertBloodDonationEquals(expected, actual, true);
+    }
+
+    private void assertBloodDonationEquals(BloodDonation expected, BloodDonation actual, boolean hasDepen) {
+        //assert all field to guarantee they are the same
         assertEquals(expected.getId(), actual.getId());
-        assertEquals(expected.getBloodBank().getId(), actual.getBloodBank().getId());
         assertEquals(expected.getMilliliters(), actual.getMilliliters());
         assertEquals(expected.getBloodGroup(), actual.getBloodGroup());
         assertEquals(expected.getRhd(), actual.getRhd());
         assertEquals(expected.getCreated(), actual.getCreated());
+        if (hasDepen) {
+            assertEquals(expected.getBloodBank().getId(), actual.getBloodBank().getId());
+        }
     }
 
     /**
@@ -227,12 +234,12 @@ class BloodDonationTest {
 
         BloodDonation returnedBD = logic.createEntity(testMap);
         //the two BloodDonation entities must be the same
-        assertBloodDonationEquals(expectedEntity, returnedBD);
+        assertBloodDonationEquals(expectedEntity, returnedBD, false);
     }
-   /**
-    * Error case: test when null and empty values 
-    * throws exception
-    */
+
+    /**
+     * Error case: test when null and empty values throws exception
+     */
     @Test
     final void testCreateEntityNullAndEmptyValues() {
         Map<String, String[]> testMap = new HashMap<>();
@@ -252,41 +259,40 @@ class BloodDonationTest {
         assertThrows(NullPointerException.class, () -> logic.createEntity(testMap));
         testMap.replace(BloodDonationLogic.ID, new String[]{});
         assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
-        
-        fillMap.accept( testMap );
-        //bankID can be null
-        testMap.replace(BloodDonationLogic.BANK_ID , new String[]{} );
-        assertThrows( IndexOutOfBoundsException.class, () -> logic.createEntity( testMap ) );
-        
-        fillMap.accept( testMap );
+
+//        fillMap.accept(testMap);
+//        //bankID can be null
+//        testMap.replace(BloodDonationLogic.BANK_ID, new String[]{});
+//        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
+
+        fillMap.accept(testMap);
         //MILLILITERS can not be null
         testMap.replace(BloodDonationLogic.MILLILITERS, null);
         assertThrows(NullPointerException.class, () -> logic.createEntity(testMap));
-        testMap.replace(BloodDonationLogic.MILLILITERS , new String[]{} );
-        assertThrows( IndexOutOfBoundsException.class, () -> logic.createEntity( testMap ) );
-        
-        fillMap.accept( testMap );
+        testMap.replace(BloodDonationLogic.MILLILITERS, new String[]{});
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
+
+        fillMap.accept(testMap);
         //BLOOD_GROUP can not be null
         testMap.replace(BloodDonationLogic.BLOOD_GROUP, null);
         assertThrows(NullPointerException.class, () -> logic.createEntity(testMap));
-        testMap.replace(BloodDonationLogic.BLOOD_GROUP , new String[]{} );
-        assertThrows( IndexOutOfBoundsException.class, () -> logic.createEntity( testMap ) );
-        
-        fillMap.accept( testMap );
+        testMap.replace(BloodDonationLogic.BLOOD_GROUP, new String[]{});
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
+
+        fillMap.accept(testMap);
         //rhd can not be null
         testMap.replace(BloodDonationLogic.RHESUS_FACTOR, null);
         assertThrows(NullPointerException.class, () -> logic.createEntity(testMap));
-        testMap.replace(BloodDonationLogic.RHESUS_FACTOR , new String[]{} );
-        assertThrows( IndexOutOfBoundsException.class, () -> logic.createEntity( testMap ) );
-        
-        fillMap.accept( testMap );
+        testMap.replace(BloodDonationLogic.RHESUS_FACTOR, new String[]{});
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
+
+        fillMap.accept(testMap);
         //crated date can not be null
         testMap.replace(BloodDonationLogic.CREATED, null);
         assertThrows(NullPointerException.class, () -> logic.createEntity(testMap));
-        testMap.replace(BloodDonationLogic.CREATED , new String[]{} );
-        assertThrows( IndexOutOfBoundsException.class, () -> logic.createEntity( testMap ) );
-        
-        
+        testMap.replace(BloodDonationLogic.CREATED, new String[]{});
+        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
+
     }
 
 }

@@ -36,12 +36,11 @@ public class DonationRecordLogicTest {
     }
     
     @BeforeEach
-    final void setup() throws Exception {
-        
+    final void setup() throws Exception {        
         EntityManager em = EMFactory.getEMF().createEntityManager();
-        em.getTransaction().begin();
-        
-
+        em.getTransaction().begin();        
     }
+    
+    
     
 }
