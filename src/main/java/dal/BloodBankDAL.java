@@ -21,8 +21,8 @@ public class BloodBankDAL extends GenericDAL <BloodBank>{
     
     public BloodBank findById(int bankId ){
          Map<String, Object> map = new HashMap<>();
-         map.put("bankID", bankId);
-         return findResult("BloodBank.findById", map);
+         map.put("bankId", bankId);
+         return findResult("BloodBank.findByBankId", map);
          
     }
     
@@ -57,10 +57,11 @@ public class BloodBankDAL extends GenericDAL <BloodBank>{
         map.put("ownerId", ownerId);
         return findResult("BloodBank.findByOwner", map);
     }
+    
     public List<BloodBank> findContaining(String search){
         Map<String, Object> map = new HashMap<>();
         map.put("search", search);
-        return findResults("BloodBank.findContaining", map);
+        return findResults("BloodBank.search", map);
     }
 
 }
