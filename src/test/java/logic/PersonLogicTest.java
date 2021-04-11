@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author xiaod
  */
-class PersonLogicTest {
+class PersonLogicTest1 {
     private PersonLogic logic;
     private Person expectedEntity;
     
@@ -51,7 +51,7 @@ class PersonLogicTest {
         entity.setLastName( "Chen" );
         entity.setPhone( "123456789" );
         entity.setAddress( "Ottawa" );
-        entity.setBirth(logic.convertStringToDate("1111-11-11 11:11:11"));
+        entity.setBirth(logic.convertStringToDate("2008-03-20 03:20:00"));
 
         expectedEntity = em.merge( entity );
         em.getTransaction().commit();
@@ -317,16 +317,16 @@ class PersonLogicTest {
         sampleMap.put( PersonLogic.LAST_NAME, new String[]{ generateString.apply( 1 ) } );
         sampleMap.put( PersonLogic.PHONE, new String[]{ generateString.apply( 1 ) } );
         sampleMap.put( PersonLogic.ADDRESS, new String[]{ generateString.apply( 1 ) } );
-        sampleMap.put( PersonLogic.BIRTH, new String[]{ generateString.apply( 1 ) } );
+        sampleMap.put( PersonLogic.BIRTH, new String[]{ "2008-10-10 12:00:00" } );
         
         //idealy every test should be in its own method
-//        Person returnedPerson = logic.createEntity( sampleMap );
-//        assertEquals( Integer.parseInt( sampleMap.get( PersonLogic.ID )[ 0 ] ), returnedPerson.getId() );
-//        assertEquals( sampleMap.get( PersonLogic.FIRST_NAME )[ 0 ], returnedPerson.getFirstName());
-//        assertEquals( sampleMap.get( PersonLogic.LAST_NAME )[ 0 ], returnedPerson.getLastName());
-//        assertEquals( sampleMap.get( PersonLogic.PHONE )[ 0 ], returnedPerson.getPhone());
-//        assertEquals( sampleMap.get( PersonLogic.ADDRESS )[ 0 ], returnedPerson.getAddress());
-//        assertEquals( sampleMap.get( PersonLogic.BIRTH )[ 0 ], logic.convertDateToString(returnedPerson.getBirth()));
+        Person returnedPerson = logic.createEntity( sampleMap );
+       // assertEquals( Integer.parseInt( sampleMap.get( PersonLogic.ID )[ 0 ] ), returnedPerson.getId() );
+        assertEquals( sampleMap.get( PersonLogic.FIRST_NAME )[ 0 ], returnedPerson.getFirstName());
+        assertEquals( sampleMap.get( PersonLogic.LAST_NAME )[ 0 ], returnedPerson.getLastName());
+        assertEquals( sampleMap.get( PersonLogic.PHONE )[ 0 ], returnedPerson.getPhone());
+        assertEquals( sampleMap.get( PersonLogic.ADDRESS )[ 0 ], returnedPerson.getAddress());
+        assertEquals( sampleMap.get( PersonLogic.BIRTH )[ 0 ], logic.convertDateToString(returnedPerson.getBirth()));
         
         sampleMap = new HashMap<>();
         sampleMap.put( PersonLogic.ID, new String[]{ Integer.toString( 1 ) } );
@@ -334,15 +334,15 @@ class PersonLogicTest {
         sampleMap.put( PersonLogic.LAST_NAME, new String[]{ generateString.apply( 50 ) } );
         sampleMap.put( PersonLogic.PHONE, new String[]{ generateString.apply( 15 ) } );
         sampleMap.put( PersonLogic.ADDRESS, new String[]{ generateString.apply( 100 ) } );
-        sampleMap.put( PersonLogic.BIRTH, new String[]{ generateString.apply( 19 ) } );
+        sampleMap.put( PersonLogic.BIRTH, new String[]{ "2008-10-10 12:00:00" } );
 
         //idealy every test should be in its own method
-//        returnedPerson = logic.createEntity( sampleMap );
-//        assertEquals( Integer.parseInt( sampleMap.get( PersonLogic.ID )[ 0 ] ), returnedPerson.getId() );
-//        assertEquals( sampleMap.get( PersonLogic.FIRST_NAME )[ 0 ], returnedPerson.getFirstName());
-//        assertEquals( sampleMap.get( PersonLogic.LAST_NAME )[ 0 ], returnedPerson.getLastName());
-//        assertEquals( sampleMap.get( PersonLogic.PHONE )[ 0 ], returnedPerson.getPhone());
-//        assertEquals( sampleMap.get( PersonLogic.ADDRESS )[ 0 ], returnedPerson.getAddress());
-//        assertEquals( sampleMap.get( PersonLogic.BIRTH )[ 0 ], logic.convertDateToString(returnedPerson.getBirth()));
+        returnedPerson = logic.createEntity( sampleMap );
+   //     assertEquals( Integer.parseInt( sampleMap.get( PersonLogic.ID )[ 0 ] ), returnedPerson.getId() );
+        assertEquals( sampleMap.get( PersonLogic.FIRST_NAME )[ 0 ], returnedPerson.getFirstName());
+        assertEquals( sampleMap.get( PersonLogic.LAST_NAME )[ 0 ], returnedPerson.getLastName());
+        assertEquals( sampleMap.get( PersonLogic.PHONE )[ 0 ], returnedPerson.getPhone());
+        assertEquals( sampleMap.get( PersonLogic.ADDRESS )[ 0 ], returnedPerson.getAddress());
+        assertEquals( sampleMap.get( PersonLogic.BIRTH )[ 0 ], logic.convertDateToString(returnedPerson.getBirth()));
     }
 }
