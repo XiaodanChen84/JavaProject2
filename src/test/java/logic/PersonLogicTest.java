@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author xiaod
  */
-class PersonLogicTest1 {
+class PersonLogicTest {
     private PersonLogic logic;
     private Person expectedEntity;
     
