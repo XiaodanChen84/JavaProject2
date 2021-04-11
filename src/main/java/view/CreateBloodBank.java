@@ -96,6 +96,8 @@ public class CreateBloodBank extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log("POST");
+        errorMessage=null;
+                
         BloodBankLogic logic = LogicFactory.getFor("BloodBank");
         PersonLogic personLogic = LogicFactory.getFor("Person");
         String owner = req.getParameter(BloodBankLogic.OWNER_ID);
