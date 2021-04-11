@@ -21,7 +21,7 @@ import logic.LogicFactory;
  *
  * @author Danping Tang
  */
-@WebServlet(name = "BloodDonationTableJSP", urlPatterns = {"/SimpleBloodBank/DonationRecordTableJSP"})
+@WebServlet(name = "BloodDonationTableJSP", urlPatterns = {"/BloodDonationTableJSP"})
 public class BloodDonationTableViewJSP extends HttpServlet {
    
     private void fillTableData( HttpServletRequest req, HttpServletResponse resp )
