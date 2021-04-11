@@ -106,7 +106,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
         String address = parameterMap.get(ADDRESS)[0];
         String birth = parameterMap.get(BIRTH)[0];
 
-        birth = birth.replaceAll("T", "");
+        birth = birth.replaceAll("T", " ");
         
         validator.accept(firstName, 50);
         validator.accept(lastName, 50);
