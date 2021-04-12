@@ -30,14 +30,12 @@ Privately_owned:<br>
 <input type="text" name="privately_owned" value=""><br><br>
 Established:<br>
 <input type="text" name="established" value=""><br><br>
-EmployeeCount:<br>
+Employee_Count:<br>
 <input type="text" name="employee_count" value=""><br><br>
 <input type="submit" name="view" value="Add and View">
 <input type="submit" name="add" value="Add">
 </form>
-<pre>Submitted keys and values:
 
-</pre>
 </div>
 </div>
 

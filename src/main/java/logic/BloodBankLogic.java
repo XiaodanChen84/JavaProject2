@@ -2,6 +2,7 @@ package logic;
 
 import common.ValidationException;
 import dal.BloodBankDAL;
+import entity.Account;
 import entity.BloodBank;
 import java.util.Arrays;
 import java.util.Date;
@@ -55,6 +56,11 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     
     public List<BloodBank> getBloodBanksWithEmplyeeCount(int count){
       return get(()-> dal().findByEmplyeeCount(count));
+    }
+    
+    @Override
+    public List<BloodBank> search( String search ) {
+        return get( () -> dal().findContaining( search ) );
     }
     
     @Override
