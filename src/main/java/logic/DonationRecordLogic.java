@@ -63,6 +63,11 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
     public List<DonationRecord> getDonationRecordWithDonation(int donationId) {
         return get(() -> dal().findByDonation(donationId));
     }
+    
+    @Override
+    public List<DonationRecord> search( String search ) {
+        return get( () -> dal().findContaining( search ) );
+    }
 
     @Override
     public DonationRecord createEntity(Map<String, String[]> parameterMap) {

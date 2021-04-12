@@ -38,7 +38,9 @@ import javax.validation.constraints.NotNull;
     @NamedQuery( name = "BloodDonation.findByBloodGroup", query = "SELECT b FROM BloodDonation b WHERE b.bloodGroup = :bloodGroup" ),
     @NamedQuery( name = "BloodDonation.findByRhd", query = "SELECT b FROM BloodDonation b WHERE b.rhd = :rhd" ),
     @NamedQuery( name = "BloodDonation.findByBloodBank", query = "SELECT b FROM BloodDonation b WHERE b.bloodBank.bankId = :bloodBankId" ),
-    @NamedQuery( name = "BloodDonation.findByCreated", query = "SELECT b FROM BloodDonation b WHERE b.created = :created" ) } )
+    @NamedQuery( name = "BloodDonation.findByCreated", query = "SELECT b FROM BloodDonation b WHERE b.created = :created" ),
+    @NamedQuery( name = "BloodDonation.findContaining", query = "SELECT b FROM BloodDonation b WHERE b.bloodBank like CONCAT('%', :search, '%') or b.milliliters like CONCAT('%', :search, '%') or b.bloodGroup like CONCAT('%', :search, '%') or b.rhd like CONCAT('%', :search, '%')")
+} )
 public class BloodDonation implements Serializable {
 
     private static final long serialVersionUID = 1L;

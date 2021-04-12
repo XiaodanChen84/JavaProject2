@@ -39,10 +39,10 @@ public class DonationRecordTableViewJSP extends HttpServlet {
 
     private List<?> extractTableData(HttpServletRequest req) {
         String search = req.getParameter("searchText");
-        BloodBankLogic logic = LogicFactory.getFor("BloodBank");
+        DonationRecordLogic logic = LogicFactory.getFor("DonationRecord");
         req.setAttribute("columnName", logic.getColumnNames());
         req.setAttribute("columnCode", logic.getColumnCodes());
-        List<BloodBank> list;
+        List<DonationRecord> list;
         if(search != null){
             list = logic.search(search);
         }else{
