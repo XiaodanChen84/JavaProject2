@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.AccountLogic;
 import logic.BloodBankLogic;
 import logic.LogicFactory;
 import logic.PersonLogic;
@@ -49,7 +48,7 @@ public class CreateBloodBank extends HttpServlet {
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodBankLogic.PRIVATELY_OWNED);
             out.println("<br>");
             out.println("Established:<br>");
-            out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodBankLogic.ESTABLISHED);
+            out.printf("<input type=\"datetime-local\" step=\"1\" name=\"%s\" value=\"\"><br>", BloodBankLogic.ESTABLISHED);
             out.println("<br>");
             out.println("EmployeeCount:<br>");
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodBankLogic.EMPLOYEE_COUNT);

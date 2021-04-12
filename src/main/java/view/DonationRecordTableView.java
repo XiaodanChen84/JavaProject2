@@ -1,15 +1,17 @@
 package view;
 
-import entity.DonationRecord;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.Logic;
+import logic.DonationRecordLogic;
 import logic.LogicFactory;
+import java.util.Map;
 
 /**
  *
@@ -23,37 +25,45 @@ public class DonationRecordTableView extends HttpServlet {
         response.setContentType( "text/html;charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()) {
-            Logic<DonationRecord> logic = LogicFactory.getFor("DonationRecord");
-                        
-            out.println( "<!DOCTYPE html>" );
-            out.println( "<html>" );
-            out.println( "<head>" );
-            out.println( "<title>AccountViewNormal</title>" );
-            out.println( "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6\" crossorigin=\"anonymous\">");
-            out.println( "</head>" );
-            out.println( "<body>" );
-           
-            
-            out.println( "<table class=\"table table-striped\"");
-            out.println( "<caption>Donation Record</caption>" );
-            
-            // TABLE HEADER
-
-            out.println( "<thead>" );
-            out.println( "<tr>" );
-            logic.getColumnNames().forEach( c -> out.printf("<th>%s</th>", c));
-            out.println( "</tr>" );  
-            out.println( "</thead>");
-            
-            //TABLE DATA
-            logic.getAll().forEach( e -> out.printf( "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>", logic.extractDataAsList(e).toArray()));
-            
          
-            
-            out.println( "</table>");
-            out.println( "</body>");
-            out.println( "</html>");
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            // TABLE HEADER
+            out.println("<head>");
+            out.println("<title>DonationRecordView</title>");
+            out.println("</head>");
+            out.println("<body>");
+
+            out.println("<table style=\"margin-left: auto; margin-right: auto;\" border=\"1\">");
+            out.println("<caption>DonationRecord</caption>");
+
+            DonationRecordLogic logic = LogicFactory.getFor("DonationRecord");
+            out.println("<tr>");
+            logic.getColumnNames().forEach(c -> out.printf("<th>%s</th>", c));
+            out.println("</tr>");
+           //TABLE DATA
+            logic.getAll().forEach(e -> out.printf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+                    logic.extractDataAsList(e).toArray()));
+            out.println("<tr>");
+
+            logic.getColumnNames().forEach(c -> out.printf("<th>%s</th>", c));
+            out.println("</tr>");
+            out.println("</table>");
+            out.printf("<div style=\"text-align: center;\"><pre>%s</pre></div>", toStringMap(request.getParameterMap()));
+            out.println("</body>");
+            out.println("</html>");
         }
+    }
+      private String toStringMap(Map<String, String[]> m) {
+        StringBuilder builder = new StringBuilder();
+        for (String k : m.keySet()) {
+            builder.append("Key=").append(k)
+                    .append(", ")
+                    .append("Value/s=").append(Arrays.toString(m.get(k)))
+                    .append(System.lineSeparator());
+        }
+        return builder.toString();
+
     }
     
     @Override
@@ -61,4 +71,5 @@ public class DonationRecordTableView extends HttpServlet {
         log( "GET" );
         processRequest( request, response);
     }
+    
 }
