@@ -73,7 +73,7 @@ public class DonationRecordDAL extends GenericDAL<DonationRecord> {
        public List<DonationRecord> findContaining(String search){
         Map<String, Object> map = new HashMap<>();
         map.put("search", search);
-        return findResults( "DonationRecord.search", map);
+        return findResults( "DonationRecord.findContaining", map);
     }
 
 }

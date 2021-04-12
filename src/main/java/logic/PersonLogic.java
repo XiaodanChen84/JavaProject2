@@ -16,7 +16,7 @@ import static logic.AccountLogic.NAME;
  */
 public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
-    public static final String FIRST_NAME = "first_naame";
+    public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String PHONE = "phone";
     public static final String ADDRESS = "address";
@@ -57,6 +57,10 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
         return get( () -> dal().findByBirth(birth) );
     }
     
+    @Override
+    public List<Person> search( String search ) {
+        return get( () -> dal().findContaining( search ) );
+    }
     
     @Override
     public List<String> getColumnNames() {

@@ -61,7 +61,7 @@ public class PersonDAL extends GenericDAL<Person>{
      public List<Person> findContaining(String search){
         Map<String, Object> map = new HashMap<>();
         map.put("search", search);
-        return findResults("Person.search", map);
-    }
+        return findResults("Person.findContaining", map);
+     }
     
 }
