@@ -34,7 +34,7 @@
                     </select>
                     </br></br>
                     Established:<br>
-                    <input type="text" name="established" value=""><br><br>
+                    <input type="datetime-local" step="1" name="established" value=""><br><br>
                     Employee_Count:<br>
                     <input type="text" name="employee_count" value=""><br><br>
                     <input type="submit" name="view" value="Add and View">
