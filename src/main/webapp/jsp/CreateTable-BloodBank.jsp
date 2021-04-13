@@ -19,9 +19,9 @@
 <form method="post">
 Owner:<br>
 <select name="owner_id">
-    <c:forEach var="person" items="${personList}">
-        <option value="${person.getId()}">${person.getLastName()}</option> 
-    </c:forEach>
+        <c:forEach var="person" items="${personList}">
+                <option value="${person.getId()}">${person.getLastName()}</option> 
+        </c:forEach>
 </select>
 </br></br>
 Name:<br>
@@ -40,10 +40,7 @@ Employee_Count:<br>
 <input type="submit" name="view" value="Add and View">
 <input type="submit" name="add" value="Add">
 </form>
-<!--  <pre>
-       Submitted keys and values:
-       toStringMap( request.getParameterMap() )
-  </pre>-->
+
 
 </div>
 </div>

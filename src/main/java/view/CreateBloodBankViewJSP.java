@@ -45,7 +45,7 @@ public class CreateBloodBankViewJSP extends HttpServlet {
       BloodBankLogic bbLogic = LogicFactory.getFor("BloodBank");
       PersonLogic psLogic = LogicFactory.getFor("Person");
               
-    //  request.setAttribute("bloodbankColName", bbLogic.getColumnNames().subList(1,bbLogic.getColumnNames().size()-1));
+      request.setAttribute("bloodbankColName", bbLogic.getColumnNames().subList(1,bbLogic.getColumnNames().size()-1));
       request.setAttribute("request", toStringMap(request.getParameterMap()));
       request.setAttribute("personList", psLogic.getAll() );
       request.setAttribute("path", path);
@@ -78,6 +78,7 @@ public class CreateBloodBankViewJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            log("GET");
             getTableData(request, response);
     }
 

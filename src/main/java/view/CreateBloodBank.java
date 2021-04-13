@@ -100,7 +100,7 @@ public class CreateBloodBank extends HttpServlet {
         BloodBankLogic logic = LogicFactory.getFor("BloodBank");
         PersonLogic personLogic = LogicFactory.getFor("Person");
         String owner = req.getParameter(BloodBankLogic.OWNER_ID);
-      
+        
         try{
             BloodBank bloodBank = logic.createEntity(req.getParameterMap());
             if(owner.isEmpty()){

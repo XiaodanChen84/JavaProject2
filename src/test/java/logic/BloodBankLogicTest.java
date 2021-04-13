@@ -33,12 +33,6 @@ public class BloodBankLogicTest {
     private BloodBank expectedEntity;
     private Person owner;
 
-    public BloodBankLogicTest() {
-    }
-    
-
-           
-
     @BeforeAll
     public static void setUpClass() throws Exception {
         TomcatStartUp.createTomcat("/simpleBloodBank", "common.ServletListener", "simplebloodbank-PU-test");
@@ -179,8 +173,8 @@ public class BloodBankLogicTest {
     @Test
     final void testCreateEntityAndAdd(){
          Map<String, String[]> sampleMap = new HashMap<>();
-         //sampleMap.put(BloodBankLogic.OWNER_ID, new String[]{"1"});
-         sampleMap.put(BloodBankLogic.NAME, new String[]{"junit"});
+
+         sampleMap.put(BloodBankLogic.NAME, new String[]{"unit"});
          sampleMap.put(BloodBankLogic.ESTABLISHED, new String[]{"2000-01-01 03:00:00"});
          sampleMap.put(BloodBankLogic.PRIVATELY_OWNED, new String[]{"true"});
          sampleMap.put(BloodBankLogic.EMPLOYEE_COUNT, new String[]{"1"});
@@ -345,7 +339,7 @@ public class BloodBankLogicTest {
         assertEquals( expectedEntity.getOwner().getId(), list.get( 1 ) );
         assertEquals( expectedEntity.getName(), list.get( 2 ) );       
         assertEquals( expectedEntity.getPrivatelyOwned(), list.get( 3 ) );
-        assertEquals( expectedEntity.getEstablished(), list.get( 4 ) );
+        assertEquals( logic.convertDateToString(expectedEntity.getEstablished()), list.get(4) );
         assertEquals( expectedEntity.getEmplyeeCount(), list.get( 5 ) );
     }
     
