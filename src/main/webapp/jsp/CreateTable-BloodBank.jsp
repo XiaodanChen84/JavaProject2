@@ -11,7 +11,7 @@
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html><head><title>Create Blood Bank</title>
+<html><head><title>Create Blood Bank JSP</title>
 </head>
 <body>
 <div style="text-align: center;">
@@ -20,14 +20,19 @@
 Owner:<br>
 <select name="owner_id">
     <c:forEach var="person" items="${personList}">
-        <option value="${person.id}">${person.name}</option>
+        <option value="${person.getId()}">${person.getLastName()}</option> 
     </c:forEach>
 </select>
-<input type="text" name="owner_id" value=""><br><br>
+</br></br>
 Name:<br>
-<input type="text" name="name" value=""><br><br>
-Privately_owned:<br>
-<input type="text" name="privately_owned" value=""><br><br>
+<input type="text" name="name" value="">
+<br><br>  
+Privately_Owned:<br>
+<select name="privately_owned" >
+    <option value="True">True</option>
+    <option value="False">False</option>
+</select>
+</br></br>
 Established:<br>
 <input type="text" name="established" value=""><br><br>
 Employee_Count:<br>
@@ -35,6 +40,10 @@ Employee_Count:<br>
 <input type="submit" name="view" value="Add and View">
 <input type="submit" name="add" value="Add">
 </form>
+<!--  <pre>
+       Submitted keys and values:
+       toStringMap( request.getParameterMap() )
+  </pre>-->
 
 </div>
 </div>
