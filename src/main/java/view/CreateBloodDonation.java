@@ -1,6 +1,8 @@
 package view;
 import entity.BloodBank;
 import entity.BloodDonation;
+import entity.BloodGroup;
+import entity.RhesusFactor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -46,10 +48,24 @@ public class CreateBloodDonation extends HttpServlet {
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.MILLILITERS);
             out.println("<br>");
             out.println("Blood Group:<br>");
-            out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.BLOOD_GROUP);
+            //add for loop to get and dispaly BLOOD_GROUP value 
+             out.printf("<select name=\"%s\" >", BloodDonationLogic.BLOOD_GROUP);
+            for (BloodGroup bdgroup : BloodGroup.values()) {
+                out.printf("<option value=\"%s\">", bdgroup);
+                out.print(bdgroup);
+                out.println("</option>");
+            }
+            out.println("</select><br>");
             out.println("<br>");
-            out.println("Rh Factor:<br>");
-            out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.RHESUS_FACTOR);
+            out.println("Rhesus Factor:<br>");
+            out.printf("<select name=\"%s\" >", BloodDonationLogic.RHESUS_FACTOR);
+             //add for loop to get and display RhesusFactor value 
+            for (RhesusFactor rhfactor : RhesusFactor.values()) {
+                out.printf("<option value=\"%s\">", rhfactor);
+                out.print(rhfactor);
+                out.println("</option>");
+            }
+            out.println("</select><br>");
             out.println("<br>");
             out.println("Created DateTime:<br>");
             out.printf("<input type=\"datetime-local\" step=\"1\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.CREATED);
