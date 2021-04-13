@@ -9,7 +9,10 @@ import entity.DonationRecord;
 import entity.Person;
 import entity.RhesusFactor;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import org.hibernate.annotations.common.util.impl.Log;
 
@@ -138,6 +141,10 @@ public class DonationRecordLogicTest {
         assertEquals(size -1, list.size());
     }
     
+    /**
+     * Test getWithId()
+     * Retrieves the record from the DB and ensures that it matches the expected entity
+     */
     @Test
     public void testGetWithId() {
         DonationRecord record = drLogic.getWithId(expectedEntity.getId());
@@ -157,6 +164,10 @@ public class DonationRecordLogicTest {
                 DonationRecordLogic.TESTED, DonationRecordLogic.ADMINISTRATOR, DonationRecordLogic.HOSPITAL, DonationRecordLogic.CREATED), list);
     }
     
+    /**
+     * Test extractDataAsList()
+     * Ensures that the method returns the correct data in the correct format
+     */
     @Test
     final void testExtractDataAsList() {
         List<?> list = drLogic.extractDataAsList(expectedEntity);
@@ -166,32 +177,270 @@ public class DonationRecordLogicTest {
         assertEquals(expectedEntity.getTested(), list.get(3));
         assertEquals(expectedEntity.getAdministrator(), list.get(4));
         assertEquals(expectedEntity.getHospital(), list.get(5));
-        assertEquals(expectedEntity.getCreated(), list.get(6));
+        assertEquals(drLogic.convertDateToString(expectedEntity.getCreated()), list.get(6));
+    }
+    
+    /**
+     * Tests getDonationRecordWithTested()
+     * Gets the list of records from the DB that have the same value for 'Tested' as the test Entity
+     * Loops through each record to confirm that its 'Tested' value matches the expected Entity
+     */
+    @Test
+    final void testGetDonationRecordWithTested() {
+        List<DonationRecord> recordsDB = drLogic.getDonationRecordWithTested(expectedEntity.getTested());
+        for (DonationRecord donationRecord : recordsDB) {
+            assertEquals(expectedEntity.getTested(), donationRecord.getTested());
+        }
+    }
+    
+    /**
+     * Tests getDonationRecordWithAdministrator()
+     * Gets the list of records from the DB that have the same value for 'Administrator' as the test Entity
+     * Loops through each record to confirm that its 'Administrator' value matches the expected Entity
+     */
+    @Test
+    final void testGetDonationRecordWithAdministrator() {
+        List<DonationRecord> recordsDB = drLogic.getDonationRecordWithAdministrator(expectedEntity.getAdministrator());
+        for (DonationRecord donationRecord : recordsDB) {
+            assertEquals(expectedEntity.getAdministrator(), donationRecord.getAdministrator());
+        }
+    }
+    
+    /**
+     * Tests getDonationRecordWithHospital()
+     * Gets the list of records from the DB that have the same value for 'Hospital' as the test Entity
+     * Loops through each record to confirm that its 'Hospital' value matches the expected Entity
+     */
+    @Test
+    final void testGetDonationRecordWithHospital() {
+        List<DonationRecord> recordsDB = drLogic.getDonationRecordWithHospital(expectedEntity.getHospital());
+        for (DonationRecord donationRecord : recordsDB) {
+            assertEquals(expectedEntity.getHospital(), donationRecord.getHospital());
+        }
+    }
+    
+    /**
+     * Tests getDonationRecordWithCreated()
+     * Gets the list of records from the DB that have the same value for 'Created' as the test Entity
+     * Loops through each record to confirm that its 'Created' value matches the expected Entity
+     */
+    @Test
+    final void testGetDonationRecordWithCreated() {
+        List<DonationRecord> recordsDB = drLogic.getDonationRecordWithCreated(expectedEntity.getCreated());
+        for (DonationRecord donationRecord : recordsDB) {
+            assertEquals(expectedEntity.getCreated(), donationRecord.getCreated());
+        }
+    }
+    
+    /**
+     * Tests getDonationRecordWithPerson()
+     * Gets the list of records from the DB that have the same value for 'PersonId' as the test Entity
+     * Loops through each record to confirm that its 'PersonId' value matches the expected Entity
+     */
+    @Test
+    final void testGetDonationRecordWithPerson() {
+        List<DonationRecord> recordsDB = drLogic.getDonationRecordWithPerson(expectedEntity.getPerson().getId());
+        for (DonationRecord donationRecord : recordsDB) {
+            assertEquals(expectedEntity.getPerson().getId(), donationRecord.getPerson().getId());
+        }
+    }
+    
+    /**
+     * Tests getDonationRecordWithDonation()
+     * Gets the list of records from the DB that have the same value for 'BloodDonationId' as the test Entity
+     * Loops through each record to confirm that its 'BloodDonationId' value matches the expected Entity
+     */
+    @Test
+    final void testGetDonationRecordWithDonation() {
+        List<DonationRecord> recordsDB = drLogic.getDonationRecordWithDonation(expectedEntity.getBloodDonation().getId());
+        for (DonationRecord donationRecord : recordsDB) {
+            assertEquals(expectedEntity.getBloodDonation().getId(), donationRecord.getBloodDonation().getId());
+        }
     }
     
     
+    /**
+     * Tests createEntity()
+     * Creates a new parameter map with the parameters obtained from the expected entity
+     * Attempts to create a new entity and ensure that the parameters match the expected entity
+     */
+    @Test
+    final void testCreateEntity() {
+        Map<String, String[]> testMap = new HashMap<>();
+        testMap.put( DonationRecordLogic.ID, new String [] { Integer.toString(expectedEntity.getId())});
+        testMap.put( DonationRecordLogic.TESTED, new String [] { Boolean.toString(expectedEntity.getTested())});
+        testMap.put( DonationRecordLogic.ADMINISTRATOR, new String [] { expectedEntity.getAdministrator()});
+        testMap.put( DonationRecordLogic.HOSPITAL, new String [] { expectedEntity.getHospital()});
+        testMap.put( DonationRecordLogic.CREATED, new String [] { drLogic.convertDateToString(expectedEntity.getCreated())});
+        
+        // Create a new record using mapped values. Check that it is equal to the existing entity in the DB.
+        DonationRecord newRecord = drLogic.createEntity(testMap);
+        assertDonationRecordEquals(expectedEntity, newRecord, false);
+    }
+    
+    /**
+     * Tests createEntity() for Null and Empty values of ID
+     * Creates a new parameter map with the parameters obtained from the expected entity
+     * Replaces ID with null and empty values and test that the method throws a NullPointerException
+     * Confirms that this value cannot be empty
+     */
+    @Test
+    final void testCreateEntityNullAndEmptyID() {
+        Map<String, String []> testMap = new HashMap<>();
+        Consumer<Map<String, String [] >> fillMap = (Map<String, String [] > map) -> {
+            map.clear();
+            map.put( DonationRecordLogic.ID, new String [] { Integer.toString(expectedEntity.getId())});
+            map.put( DonationRecordLogic.TESTED, new String [] { Boolean.toString(expectedEntity.getTested())});
+            map.put( DonationRecordLogic.ADMINISTRATOR, new String [] { expectedEntity.getAdministrator()});
+            map.put( DonationRecordLogic.HOSPITAL, new String [] { expectedEntity.getHospital()});
+            map.put( DonationRecordLogic.CREATED, new String [] { drLogic.convertDateToString(expectedEntity.getCreated())});
+        };
+        
+        fillMap.accept(testMap);
+        testMap.replace(DonationRecordLogic.ID, null);
+        assertThrows(NullPointerException.class, () -> drLogic.createEntity(testMap));
+        testMap.replace(DonationRecordLogic.ID, new String [] {} );
+        assertThrows(IndexOutOfBoundsException.class, () -> drLogic.createEntity(testMap));             
+    }
+    
+    /**
+     * Tests createEntity() for Null and Empty values of Tested
+     * Creates a new parameter map with the parameters obtained from the expected entity
+     * Replaces 'Tested' with null and empty values and test that the method throws a NullPointerException
+     * Confirms that this value cannot be empty when creating a new entity
+     */
+    @Test
+    final void testCreateEntityNullAndEmptyTested() {
+        Map<String, String []> testMap = new HashMap<>();
+        Consumer<Map<String, String [] >> fillMap = (Map<String, String [] > map) -> {
+            map.clear();
+            map.put( DonationRecordLogic.ID, new String [] { Integer.toString(expectedEntity.getId())});
+            map.put( DonationRecordLogic.TESTED, new String [] { Boolean.toString(expectedEntity.getTested())});
+            map.put( DonationRecordLogic.ADMINISTRATOR, new String [] { expectedEntity.getAdministrator()});
+            map.put( DonationRecordLogic.HOSPITAL, new String [] { expectedEntity.getHospital()});
+            map.put( DonationRecordLogic.CREATED, new String [] { drLogic.convertDateToString(expectedEntity.getCreated())});
+        };
+        
+        fillMap.accept(testMap);
+        testMap.replace(DonationRecordLogic.TESTED, null);
+        assertThrows(NullPointerException.class, () -> drLogic.createEntity(testMap));
+        testMap.replace(DonationRecordLogic.TESTED, new String [] {} );
+        assertThrows(IndexOutOfBoundsException.class, () -> drLogic.createEntity(testMap));             
+    }
+    
+    /**
+     * Tests createEntity() for Null and Empty values of Administrator
+     * Creates a new parameter map with the parameters obtained from the expected entity
+     * Replaces 'Administrator' with null and empty values and test that the method throws a NullPointerException
+     * Confirms that this value cannot be empty when creating a new entity
+     */
+    @Test
+    final void testCreateEntityNullAndEmptyAdministrator() {
+        Map<String, String []> testMap = new HashMap<>();
+        Consumer<Map<String, String [] >> fillMap = (Map<String, String [] > map) -> {
+            map.clear();
+            map.put( DonationRecordLogic.ID, new String [] { Integer.toString(expectedEntity.getId())});
+            map.put( DonationRecordLogic.TESTED, new String [] { Boolean.toString(expectedEntity.getTested())});
+            map.put( DonationRecordLogic.ADMINISTRATOR, new String [] { expectedEntity.getAdministrator()});
+            map.put( DonationRecordLogic.HOSPITAL, new String [] { expectedEntity.getHospital()});
+            map.put( DonationRecordLogic.CREATED, new String [] { drLogic.convertDateToString(expectedEntity.getCreated())});
+        };
+        
+        fillMap.accept(testMap);
+        testMap.replace(DonationRecordLogic.ADMINISTRATOR, null);
+        assertThrows(NullPointerException.class, () -> drLogic.createEntity(testMap));
+        testMap.replace(DonationRecordLogic.ADMINISTRATOR, new String [] {} );
+        assertThrows(IndexOutOfBoundsException.class, () -> drLogic.createEntity(testMap));             
+    }
     
     
+    /**
+     * Tests createEntity() for Null and Empty values of Hospital
+     * Creates a new parameter map with the parameters obtained from the expected entity
+     * Replaces 'Hospital' with null and empty values and test that the method throws a NullPointerException
+     * Confirms that this value cannot be empty when creating a new entity
+     */
+    @Test
+    final void testCreateEntityNullAndEmptyHospital() {
+        Map<String, String []> testMap = new HashMap<>();
+        Consumer<Map<String, String [] >> fillMap = (Map<String, String [] > map) -> {
+            map.clear();
+            map.put( DonationRecordLogic.ID, new String [] { Integer.toString(expectedEntity.getId())});
+            map.put( DonationRecordLogic.TESTED, new String [] { Boolean.toString(expectedEntity.getTested())});
+            map.put( DonationRecordLogic.ADMINISTRATOR, new String [] { expectedEntity.getAdministrator()});
+            map.put( DonationRecordLogic.HOSPITAL, new String [] { expectedEntity.getHospital()});
+            map.put( DonationRecordLogic.CREATED, new String [] { drLogic.convertDateToString(expectedEntity.getCreated())});
+        };
+        
+        fillMap.accept(testMap);
+        testMap.replace(DonationRecordLogic.HOSPITAL, null);
+        assertThrows(NullPointerException.class, () -> drLogic.createEntity(testMap));
+        testMap.replace(DonationRecordLogic.HOSPITAL, new String [] {} );
+        assertThrows(IndexOutOfBoundsException.class, () -> drLogic.createEntity(testMap));             
+    }
     
+    /**
+     * Tests createEntity() for Null and Empty values of Created
+     * Creates a new parameter map with the parameters obtained from the expected entity
+     * Replaces 'Created' with null and empty values and test that the method throws a NullPointerException
+     * Confirms that this value cannot be empty when creating a new entity
+     */
+    @Test
+    final void testCreateEntityNullAndEmptyCreated() {
+        Map<String, String []> testMap = new HashMap<>();
+        Consumer<Map<String, String [] >> fillMap = (Map<String, String [] > map) -> {
+            map.clear();
+            map.put( DonationRecordLogic.ID, new String [] { Integer.toString(expectedEntity.getId())});
+            map.put( DonationRecordLogic.TESTED, new String [] { Boolean.toString(expectedEntity.getTested())});
+            map.put( DonationRecordLogic.ADMINISTRATOR, new String [] { expectedEntity.getAdministrator()});
+            map.put( DonationRecordLogic.HOSPITAL, new String [] { expectedEntity.getHospital()});
+            map.put( DonationRecordLogic.CREATED, new String [] { drLogic.convertDateToString(expectedEntity.getCreated())});
+        };
+        
+        fillMap.accept(testMap);
+        testMap.replace(DonationRecordLogic.CREATED, null);
+        assertThrows(NullPointerException.class, () -> drLogic.createEntity(testMap));
+        testMap.replace(DonationRecordLogic.CREATED, new String [] {} );
+        assertThrows(IndexOutOfBoundsException.class, () -> drLogic.createEntity(testMap));             
+    }    
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // Helper method to determin equality between expected entity and actual entity
+    /**
+     * Helper method to determine equality between expected entity and actual entity.
+     * 
+     * @param expected The pre-defined entity used for test purposes
+     * @param actual The entity pulled from the DB
+     */
     private void assertDonationRecordEquals(DonationRecord expected, DonationRecord actual) {
+        assertDonationRecordEquals(expected, actual, true);
+    }
+    
+    /**
+     * Helper method to determine equality between expected entity and actual entity.
+     * Boolean hasDependency triggers a check for equality in Person and BloodDonation.
+     * Generally, there will be a dependency when checking against records from the DB.
+     * However, some methods are tested without pulling entities from DB - hasDependency would be false.
+     */
+    /**
+     * Helper method to determine equality between expected entity and actual entity.
+     * Boolean hasDependency triggers a check for equality in Person and BloodDonation.
+     * Generally, there will be a dependency when checking against records from the DB.
+     * However, some methods are tested without pulling entities from DB - hasDependency would be false.
+     * 
+     * @param expected The pre-defined entity used for test purposes
+     * @param actual The entity pulled from the DB
+     * @param hasDependency Whether the entity being tested has dependencies in the DB
+     */
+    private void assertDonationRecordEquals(DonationRecord expected, DonationRecord actual, boolean hasDependency) {
+        
         assertEquals( expected.getId(), actual.getId());
-        assertEquals( expected.getBloodDonation(), actual.getBloodDonation());
         assertEquals( expected.getTested(), actual.getTested());
         assertEquals( expected.getAdministrator(), actual.getAdministrator());
         assertEquals( expected.getHospital(), actual.getHospital());
         assertEquals( expected.getCreated(), actual.getCreated());
+        
+        if (hasDependency) {
+            assertEquals( expected.getPerson().getId(), actual.getPerson().getId());
+            assertEquals( expected.getBloodDonation().getId(), actual.getBloodDonation().getId());
+        }
     }
 }
