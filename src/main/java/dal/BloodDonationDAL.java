@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  *
- * @author danping tang
+ * @author Danping Tang
  */
 public class BloodDonationDAL extends  GenericDAL<BloodDonation> {
     
