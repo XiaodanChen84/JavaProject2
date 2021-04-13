@@ -99,7 +99,7 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
         };
 
         boolean tested;
-        if (parameterMap.get(TESTED)[0].trim().equals(1)) {
+        if (parameterMap.get(TESTED)[0].trim().equals("true")) {
             tested = true;
         } else {
             tested = false;
