@@ -14,11 +14,13 @@ public class BloodBankDAL extends GenericDAL <BloodBank>{
         super(BloodBank.class);
     }
         
+    @Override
     public List<BloodBank> findAll(){
         return findResults("BloodBank.findAll", null);
       
     }
     
+    @Override
     public BloodBank findById(int bankId ){
          Map<String, Object> map = new HashMap<>();
          map.put("bankId", bankId);

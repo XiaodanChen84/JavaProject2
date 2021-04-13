@@ -42,7 +42,7 @@ public class CreateBloodDonation extends HttpServlet {
             //from parameter map.
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.BANK_ID);
             out.println("<br>");
-            out.println("Millitliters:<br>");
+            out.println("Milliliters:<br>");
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodDonationLogic.MILLILITERS);
             out.println("<br>");
             out.println("Blood Group:<br>");
@@ -112,7 +112,7 @@ public class CreateBloodDonation extends HttpServlet {
                         bdLogic.add(bloodDonation);
 
                 }else{
-                      //if duplicate print the error message
+                //if duplicate print the error message
                 errorMessage = "Blood Bank: \"" + bankID + "\" does not exist";
                 }
             }
