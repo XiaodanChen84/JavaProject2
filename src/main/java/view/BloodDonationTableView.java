@@ -16,7 +16,7 @@ import logic.BloodDonationLogic;
 /**
  * Processes requests
  *
- * @author danping tang
+ * @author Danping Tang
  */
 @WebServlet(name = "BloodDonationTable", urlPatterns = {"/BloodDonationTable"})
 public class BloodDonationTableView extends HttpServlet {
@@ -61,6 +61,11 @@ public class BloodDonationTableView extends HttpServlet {
 
     }
 
+    /**
+     *
+     * @param m
+     * @return
+     */
     private String toStringMap(Map<String, String[]> m) {
         StringBuilder builder = new StringBuilder();
         for (String k : m.keySet()) {
@@ -73,6 +78,13 @@ public class BloodDonationTableView extends HttpServlet {
 
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -80,6 +92,13 @@ public class BloodDonationTableView extends HttpServlet {
         processRequest(request, response);
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -90,12 +109,21 @@ public class BloodDonationTableView extends HttpServlet {
         processRequest(request, response);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getServletInfo() {
         return "Sample of BloodDonation View Normal";
     }
+
     private static final boolean DEBUG = true;
 
+    /**
+     *
+     * @param msg
+     */
     public void log(String msg) {
         if (DEBUG) {
             String message = String.format("[%s] %s", getClass().getSimpleName(), msg);
@@ -103,6 +131,11 @@ public class BloodDonationTableView extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param msg
+     * @param t
+     */
     public void log(String msg, Throwable t) {
         String message = String.format("[%s] %s", getClass().getSimpleName(), msg);
         getServletContext().log(message, t);

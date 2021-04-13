@@ -26,6 +26,13 @@ public class CreateBloodBank extends HttpServlet {
 
     private String errorMessage = null;
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -76,6 +83,11 @@ public class CreateBloodBank extends HttpServlet {
         }
     }
 
+    /**
+     * 
+     * @param values
+     * @return 
+     */
     private String toStringMap(Map<String, String[]> values) {
         StringBuilder builder = new StringBuilder();
         values.forEach((k, v) -> builder.append("Key=").append(k)
@@ -85,6 +97,13 @@ public class CreateBloodBank extends HttpServlet {
         return builder.toString();
     }
 
+    /**
+     * 
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -92,6 +111,13 @@ public class CreateBloodBank extends HttpServlet {
         processRequest(req, resp);
     }
 
+    /**
+     * 
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log("POST");
@@ -134,6 +160,10 @@ public class CreateBloodBank extends HttpServlet {
         }
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String getServletInfo() {
         return "Create a BloodBank Entity";
@@ -141,6 +171,10 @@ public class CreateBloodBank extends HttpServlet {
 
     private static final boolean DEBUG = true;
 
+    /**
+     * 
+     * @param msg 
+     */
     public void log(String msg) {
         if (DEBUG) {
             String message = String.format("[%s] %s", getClass().getSimpleName(), msg);
@@ -148,6 +182,11 @@ public class CreateBloodBank extends HttpServlet {
         }
     }
 
+    /**
+     * 
+     * @param msg
+     * @param t 
+     */
     public void log(String msg, Throwable t) {
         String message = String.format("[%s] %s", getClass().getSimpleName(), msg);
         getServletContext().log(message, t);

@@ -1,4 +1,5 @@
 package view;
+
 import entity.BloodBank;
 import entity.BloodDonation;
 import entity.BloodGroup;
@@ -25,6 +26,13 @@ public class CreateBloodDonation extends HttpServlet {
 
     private String errorMessage = null;
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -49,7 +57,7 @@ public class CreateBloodDonation extends HttpServlet {
             out.println("<br>");
             out.println("Blood Group:<br>");
             //add for loop to get and dispaly BLOOD_GROUP value 
-             out.printf("<select name=\"%s\" >", BloodDonationLogic.BLOOD_GROUP);
+            out.printf("<select name=\"%s\" >", BloodDonationLogic.BLOOD_GROUP);
             for (BloodGroup bdgroup : BloodGroup.values()) {
                 out.printf("<option value=\"%s\">", bdgroup);
                 out.print(bdgroup);
@@ -59,7 +67,7 @@ public class CreateBloodDonation extends HttpServlet {
             out.println("<br>");
             out.println("Rhesus Factor:<br>");
             out.printf("<select name=\"%s\" >", BloodDonationLogic.RHESUS_FACTOR);
-             //add for loop to get and display RhesusFactor value 
+            //add for loop to get and display RhesusFactor value 
             for (RhesusFactor rhfactor : RhesusFactor.values()) {
                 out.printf("<option value=\"%s\">", rhfactor);
                 out.print(rhfactor);
@@ -91,6 +99,11 @@ public class CreateBloodDonation extends HttpServlet {
         }
     }
 
+    /**
+     * 
+     * @param values
+     * @return 
+     */
     private String toStringMap(Map<String, String[]> values) {
         StringBuilder builder = new StringBuilder();
         values.forEach((k, v) -> builder.append("Key=").append(k)
@@ -100,36 +113,51 @@ public class CreateBloodDonation extends HttpServlet {
         return builder.toString();
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log("GET");
         processRequest(request, response);
     }
-      @Override
+
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log("POST");
         BloodDonationLogic bdLogic = LogicFactory.getFor("BloodDonation");
         String bankID = request.getParameter(BloodDonationLogic.BANK_ID);
-        
+
         try {
             BloodDonation bloodDonation = bdLogic.createEntity(request.getParameterMap());
             // first check user input is empty
-            if ( bankID.isEmpty()) {
-                   bdLogic.add(bloodDonation);
+            if (bankID.isEmpty()) {
+                bdLogic.add(bloodDonation);
             } else {
                 //foreign key ,set dependence
                 BloodBankLogic bkLogic = LogicFactory.getFor("BloodBank");
                 BloodBank bank = bkLogic.getWithId(Integer.parseInt(bankID));
                 //Check user input bankID if is exsit in bloodbank
-                if (bank !=null ) {
-                        bloodDonation.setBloodBank(bank);
-                        bdLogic.add(bloodDonation);
+                if (bank != null) {
+                    bloodDonation.setBloodBank(bank);
+                    bdLogic.add(bloodDonation);
 
-                }else{
-                      //if duplicate print the error message
-                errorMessage = "Blood Bank: \"" + bankID + "\" does not exist";
+                } else {
+                    //if duplicate print the error message
+                    errorMessage = "Blood Bank: \"" + bankID + "\" does not exist";
                 }
             }
         } catch (Exception e) {
@@ -144,7 +172,8 @@ public class CreateBloodDonation extends HttpServlet {
             response.sendRedirect("BloodDonationTable");
         }
     }
-        /**
+
+    /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
@@ -156,15 +185,24 @@ public class CreateBloodDonation extends HttpServlet {
 
     private static final boolean DEBUG = true;
 
-    public void log( String msg ) {
-        if( DEBUG ){
-            String message = String.format( "[%s] %s", getClass().getSimpleName(), msg );
-            getServletContext().log( message );
+    /**
+     * 
+     * @param msg 
+     */
+    public void log(String msg) {
+        if (DEBUG) {
+            String message = String.format("[%s] %s", getClass().getSimpleName(), msg);
+            getServletContext().log(message);
         }
     }
 
-    public void log( String msg, Throwable t ) {
-        String message = String.format( "[%s] %s", getClass().getSimpleName(), msg );
-        getServletContext().log( message, t );
+    /**
+     * 
+     * @param msg
+     * @param t 
+     */
+    public void log(String msg, Throwable t) {
+        String message = String.format("[%s] %s", getClass().getSimpleName(), msg);
+        getServletContext().log(message, t);
     }
 }

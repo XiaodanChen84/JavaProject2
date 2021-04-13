@@ -53,6 +53,11 @@ public class PersonTableView extends HttpServlet{
         }
     }
 
+    /**
+     * 
+     * @param m
+     * @return 
+     */
     private String toStringMap( Map<String, String[]> m ) {
         StringBuilder builder = new StringBuilder();
         for( String k: m.keySet() ) {
@@ -65,12 +70,11 @@ public class PersonTableView extends HttpServlet{
     }
 
     /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
@@ -80,12 +84,11 @@ public class PersonTableView extends HttpServlet{
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
      */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
@@ -98,9 +101,8 @@ public class PersonTableView extends HttpServlet{
     }
 
     /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
+     * 
+     * @return 
      */
     @Override
     public String getServletInfo() {
@@ -109,6 +111,10 @@ public class PersonTableView extends HttpServlet{
 
     private static final boolean DEBUG = true;
 
+    /**
+     * 
+     * @param msg 
+     */
     public void log( String msg ) {
         if( DEBUG ){
             String message = String.format( "[%s] %s", getClass().getSimpleName(), msg );
@@ -116,6 +122,11 @@ public class PersonTableView extends HttpServlet{
         }
     }
 
+    /**
+     * 
+     * @param msg
+     * @param t 
+     */
     public void log( String msg, Throwable t ) {
         String message = String.format( "[%s] %s", getClass().getSimpleName(), msg );
         getServletContext().log( message, t );

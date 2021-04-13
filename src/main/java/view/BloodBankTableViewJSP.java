@@ -24,6 +24,13 @@ import logic.LogicFactory;
 @WebServlet(name = "BloodBankTableJSP", urlPatterns = {"/BloodBankTableJSP"})
 public class BloodBankTableViewJSP extends HttpServlet {
     
+    /**
+     * 
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void fillTableData( HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException{
       String path = req.getServletPath();
@@ -34,6 +41,11 @@ public class BloodBankTableViewJSP extends HttpServlet {
       req.getRequestDispatcher("/jsp/ShowTable-BloodBank.jsp" ).forward(req, resp);
     }
 
+    /**
+     * 
+     * @param req
+     * @return 
+     */
     private List<?> extractTableData(HttpServletRequest req) {
         String search = req.getParameter("searchText");
         BloodBankLogic logic = LogicFactory.getFor("BloodBank");
@@ -52,12 +64,24 @@ public class BloodBankTableViewJSP extends HttpServlet {
        
     }
     
+    /**
+     * 
+     * @param <T>
+     * @param list
+     * @param toArray
+     * @return 
+     */
     private <T> List<?> appendDataToNewList(List<T> list, Function<T, List<?>> toArray){
         List<List<?>> newlist = new ArrayList<>(list.size());
         list.forEach(i -> newlist.add(toArray.apply(i)));
         return newlist;
     }
 
+    /**
+     * 
+     * @param m
+     * @return 
+     */
     private String toStringMap(Map<String, String[]> m) {
        StringBuilder builder = new StringBuilder();
        m.keySet().forEach((k)->{
@@ -70,6 +94,14 @@ public class BloodBankTableViewJSP extends HttpServlet {
        return builder.toString();
        
     }
+    
+    /**
+     * 
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException{
@@ -87,6 +119,13 @@ public class BloodBankTableViewJSP extends HttpServlet {
         fillTableData(req, resp);
     }
   
+    /**
+     * 
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -94,6 +133,13 @@ public class BloodBankTableViewJSP extends HttpServlet {
         fillTableData(req, resp);
     }
 
+    /**
+     * 
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -101,6 +147,13 @@ public class BloodBankTableViewJSP extends HttpServlet {
         doPost(req, resp);
     }
     
+    /**
+     * 
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -108,19 +161,34 @@ public class BloodBankTableViewJSP extends HttpServlet {
         doPost(req, resp);
     }
     
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String getServletInfo() {
         return "BloodBank Table using JSP";
     }
     
+    
     private static final boolean DEBUG = true;
     
+    /**
+     * 
+     * @param msg 
+     */
     public void log( String msg ) {
         if(DEBUG){
             String message = String.format("[%s] %s", getClass().getSimpleName(), msg);
             getServletContext().log(message);
         }
     }
+    
+    /**
+     * 
+     * @param msg
+     * @param t 
+     */
     public void log( String msg, Throwable t ) {
         String message = String.format( "[%s] %s", getClass().getSimpleName(), msg );
         getServletContext().log( message, t );

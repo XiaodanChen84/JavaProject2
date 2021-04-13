@@ -22,101 +22,161 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
     public static final String ADDRESS = "address";
     public static final String BIRTH = "birth";
     public static final String ID = "id";
-    
+
+    /**
+     *
+     */
     PersonLogic() {
-        super( new PersonDAL() );
+        super(new PersonDAL());
     }
-    
+
+    /**
+     *
+     * @return
+     */
     @Override
     public List<Person> getAll() {
-        return get( () -> dal().findAll() );
+        return get(() -> dal().findAll());
     }
-    
+
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Person getWithId(int id) {
-        return get( () -> dal().findById( id ) );
+        return get(() -> dal().findById(id));
     }
-    
+
+    /**
+     *
+     * @param phone
+     * @return
+     */
     public List<Person> getPersonWithPhone(String phone) {
-        return get( () -> dal().findByPhone(phone) );
+        return get(() -> dal().findByPhone(phone));
     }
-    
+
+    /**
+     *
+     * @param firstName
+     * @return
+     */
     public List<Person> getPersonWithFirstName(String firstName) {
-        return get( () -> dal().findByFirstName(firstName) );
+        return get(() -> dal().findByFirstName(firstName));
     }
-    
+
+    /**
+     *
+     * @param lastName
+     * @return
+     */
     public List<Person> getPersonWithLastName(String lastName) {
-        return get( () -> dal().findByLastName(lastName) );
+        return get(() -> dal().findByLastName(lastName));
     }
-        
+
+    /**
+     *
+     * @param address
+     * @return
+     */
     public List<Person> getPersonWithAddress(String address) {
-        return get( () -> dal().findByAddress(address) );
+        return get(() -> dal().findByAddress(address));
     }
-            
+
+    /**
+     *
+     * @param birth
+     * @return
+     */
     public List<Person> getPersonWithBirth(Date birth) {
-        return get( () -> dal().findByBirth(birth) );
+        return get(() -> dal().findByBirth(birth));
     }
-    
+
+    /**
+     *
+     * @param search
+     * @return
+     */
     @Override
-    public List<Person> search( String search ) {
-        return get( () -> dal().findContaining( search ) );
+    public List<Person> search(String search) {
+        return get(() -> dal().findContaining(search));
     }
-    
+
+    /**
+     *
+     * @return
+     */
     @Override
     public List<String> getColumnNames() {
-        return Arrays.asList( "first_name", "last_lame", "phone", "address", "birth", "id" );
+        return Arrays.asList("first_name", "last_lame", "phone", "address", "birth", "id");
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<String> getColumnCodes() {
-        return Arrays.asList( FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH, ID );
+        return Arrays.asList(FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH, ID);
     }
 
+    /**
+     *
+     * @param e
+     * @return
+     */
     @Override
     public List<?> extractDataAsList(Person e) {
-        return Arrays.asList( e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()), e.getId() );
+        return Arrays.asList(e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()), e.getId());
     }
 
+    /**
+     *
+     * @param parameterMap
+     * @return
+     */
     @Override
     public Person createEntity(Map<String, String[]> parameterMap) {
         if (parameterMap == null) {
             throw new NullPointerException("parameterMap cannot be null");
         }
         Person entity = new Person();
-        
-        if( parameterMap.containsKey( ID ) ){
+
+        if (parameterMap.containsKey(ID)) {
             try {
-                entity.setId( Integer.parseInt( parameterMap.get( ID )[ 0 ] ) );
-            } catch( java.lang.NumberFormatException ex ) {
-                throw new ValidationException( ex );
+                entity.setId(Integer.parseInt(parameterMap.get(ID)[0]));
+            } catch (java.lang.NumberFormatException ex) {
+                throw new ValidationException(ex);
             }
         }
-        ObjIntConsumer< String> validator = ( value, length ) -> {
-            if( value == null || value.trim().isEmpty() || value.length() > length ){
+        ObjIntConsumer< String> validator = (value, length) -> {
+            if (value == null || value.trim().isEmpty() || value.length() > length) {
                 String error = "";
-                if( value == null || value.trim().isEmpty() ){
+                if (value == null || value.trim().isEmpty()) {
                     error = "value cannot be null or empty: " + value;
                 }
-                if( value.length() > length ){
+                if (value.length() > length) {
                     error = "string length is " + value.length() + " > " + length;
                 }
-                throw new ValidationException( error );
+                throw new ValidationException(error);
             }
         };
-        
-        String firstName = parameterMap.get(FIRST_NAME)[0]; 
+
+        String firstName = parameterMap.get(FIRST_NAME)[0];
         String lastName = parameterMap.get(LAST_NAME)[0];
         String phone = parameterMap.get(PHONE)[0];
         String address = parameterMap.get(ADDRESS)[0];
         String birth = parameterMap.get(BIRTH)[0];
 
         birth = birth.replaceAll("T", " ");
-        
+
         validator.accept(firstName, 50);
         validator.accept(lastName, 50);
         validator.accept(phone, 15);
         validator.accept(address, 100);
-        
+
         entity.setFirstName(firstName);
         entity.setLastName(lastName);
         entity.setPhone(phone);
