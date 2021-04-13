@@ -77,8 +77,11 @@ public class CreateDonationRecord extends HttpServlet {
             out.printf ( "<input class=\"form-check-input\" type=\"radio\" id=\"testedFalse\" name=\"%s\" value=\"0\">", DonationRecordLogic.TESTED);
             out.println( "<label class=\"form-check-label\" for=\"testedFalse\">False</label>");
             out.println( "</div>");
-            
-            //Submit buttons
+            //CreatedDate input
+            out.println( "<label class=\"mt-2\" for=\"created\">Created Date Time:</label>" );
+            out.printf ( "<input class=\"form-control\" type=\"datetime-local\" step=\"1\" id=\"created\" name=\"%s\" value=\"\">", DonationRecordLogic.CREATED);  
+           
+//Submit buttons
             out.println( "<div class=\"row\">");
             out.println( "<div class=\"col-1\"></div>");
             out.println( "<input class=\"btn btn-primary my-2 col-4\" type=\"submit\" name=\"add\" value=\"Add\">");
