@@ -78,6 +78,7 @@ public class CreateBloodBankViewJSP extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            log("GET");
             getTableData(request, response);
     }
 
