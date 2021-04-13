@@ -2,8 +2,10 @@ package view;
 
 import entity.BloodBank;
 import entity.BloodDonation;
+import entity.BloodGroup;
 import entity.DonationRecord;
 import entity.Person;
+import entity.RhesusFactor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -88,20 +90,25 @@ public class DonateBloodFrom extends HttpServlet {
             out.println("</select>");
             out.println("<label for=\"bloodgroup\">Blood Group</label>");
             out.printf("<select class=\"form-select\" id=\"bloodgroup\" name=\"%s\">", BloodDonationLogic.BLOOD_GROUP);
-            out.println("<option value=\"A\">A</option>");
-            out.println("<option value=\"B\">B</option>");
-            out.println("<option value=\"AB\">AB</option>");
-            out.println("<option value=\"O\">O</option>");
+            //add for loop to get and dispaly BLOOD_GROUP value 
+            for (BloodGroup bdgroup : BloodGroup.values()) {
+                out.printf("<option value=\"%s\">", bdgroup);
+                out.print(bdgroup);
+                out.println("</option>");
+            }
             out.println("</select>");
             out.println("</div>");
-
             out.println("<div class=\"col-6\">");
             out.println("<label for\"\">Mililitres Collected</label>");
             out.printf("<input class=\"form-control\" type=\"text\" id=\"ml\" name=\"%s\">", BloodDonationLogic.MILLILITERS);
             out.println("<label for=\"\">Rhesus Factor</label>");
             out.printf("<select class=\"form-select\" id=\"rhesusfactor\" name=\"%s\">", BloodDonationLogic.RHESUS_FACTOR);
-            out.println("<option value=\"+\">+</option>");
-            out.println("<option value=\"-\">-</option>");
+            //add for loop to get and display RhesusFactor value 
+             for (RhesusFactor rhfactor : RhesusFactor.values()) {
+                out.printf("<option value=\"%s\">", rhfactor);
+                out.print(rhfactor);
+                out.println("</option>");
+            }
             out.println("</select>");
             out.println("</div>");
 
