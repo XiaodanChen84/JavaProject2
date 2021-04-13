@@ -79,6 +79,10 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
         // no string,no need to validate for bollod_group,reh ENUM,milliters,datetime  
         return bdEntity;
     }
+    @Override
+    public List<BloodDonation> search( String search ) {
+        return get( () -> dal().findContaining( search ) );
+    }
 
     @Override
     public List<BloodDonation> getAll() {

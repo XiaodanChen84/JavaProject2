@@ -2,9 +2,8 @@ package logic;
 
 import common.ValidationException;
 import dal.BloodBankDAL;
-import dal.DataAccessLayer;
+import entity.Account;
 import entity.BloodBank;
-import entity.Person;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -60,6 +59,11 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     }
     
     @Override
+    public List<BloodBank> search( String search ) {
+        return get( () -> dal().findContaining( search ) );
+    }
+    
+    @Override
     public BloodBank createEntity(Map<String, String[]> parameterMap ){
       Objects.requireNonNull(parameterMap, "parameterMap can not be null");
       BloodBank entity = new BloodBank();
@@ -91,6 +95,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
         
         String privatelyOwned = parameterMap.get(PRIVATELY_OWNED)[0];
         String established = parameterMap.get(ESTABLISHED)[0];
+        established = established.replaceAll("T", " ");
         String employeeCount = parameterMap.get(EMPLOYEE_COUNT)[0];
 
         entity.setName(displayName);
@@ -120,7 +125,7 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     public List<?> extractDataAsList(BloodBank e) {
 
     return Arrays.asList( e.getId(), e.getOwner()==null?"null": e.getOwner().getId(),
-        e.getName(), e.getPrivatelyOwned(), e.getEstablished(), e.getEmplyeeCount());
+        e.getName(), e.getPrivatelyOwned(), convertDateToString(e.getEstablished()), e.getEmplyeeCount());
      
   } 
 

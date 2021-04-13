@@ -312,7 +312,7 @@ class PersonLogicTest {
         };
 
         Map<String, String[]> sampleMap = new HashMap<>();
-        sampleMap.put( PersonLogic.ID, new String[]{ Integer.toString( 1 ) } );
+   //     sampleMap.put( PersonLogic.ID, new String[]{ Integer.toString( 1 ) } );
         sampleMap.put( PersonLogic.FIRST_NAME, new String[]{ generateString.apply( 1 ) } );
         sampleMap.put( PersonLogic.LAST_NAME, new String[]{ generateString.apply( 1 ) } );
         sampleMap.put( PersonLogic.PHONE, new String[]{ generateString.apply( 1 ) } );
@@ -329,7 +329,7 @@ class PersonLogicTest {
         assertEquals( sampleMap.get( PersonLogic.BIRTH )[ 0 ], logic.convertDateToString(returnedPerson.getBirth()));
         
         sampleMap = new HashMap<>();
-        sampleMap.put( PersonLogic.ID, new String[]{ Integer.toString( 1 ) } );
+     //   sampleMap.put( PersonLogic.ID, new String[]{ Integer.toString( 1 ) } );
         sampleMap.put( PersonLogic.FIRST_NAME, new String[]{ generateString.apply( 50 ) } );
         sampleMap.put( PersonLogic.LAST_NAME, new String[]{ generateString.apply( 50 ) } );
         sampleMap.put( PersonLogic.PHONE, new String[]{ generateString.apply( 15 ) } );
