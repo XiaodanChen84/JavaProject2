@@ -66,6 +66,7 @@ public class CreateBloodBankViewJSP extends HttpServlet {
        
     }
 
+ 
     /**
      * Handles the HTTP <code>GET</code> method.
      *
