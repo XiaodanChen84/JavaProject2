@@ -62,19 +62,27 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
         return get( () -> dal().findContaining( search ) );
     }
     
+//    @Override
+//    public List<String> getColumnNames() {
+//        return Arrays.asList( "first_name", "last_lame", "phone", "address", "birth", "id" );
+//    }
     @Override
     public List<String> getColumnNames() {
-        return Arrays.asList( "first_name", "last_lame", "phone", "address", "birth", "id" );
+        return Arrays.asList( "ID","First_Name", "Last_Name", "Phone", "Address", "Birth" );
     }
 
+//    @Override
+//    public List<String> getColumnCodes() {
+//        return Arrays.asList( FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH, ID );
+//    }
     @Override
     public List<String> getColumnCodes() {
-        return Arrays.asList( FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH, ID );
+        return Arrays.asList( ID, FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH );
     }
 
     @Override
     public List<?> extractDataAsList(Person e) {
-        return Arrays.asList( e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()), e.getId() );
+        return Arrays.asList( e.getId(),e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()));
     }
 
     @Override
