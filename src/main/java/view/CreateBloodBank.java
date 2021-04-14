@@ -52,11 +52,10 @@ public class CreateBloodBank extends HttpServlet {
             out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodBankLogic.NAME);
             out.println("<br>");
             out.println("Privately_owned:<br>");
-//            out.printf("<input type=\"text\" name=\"%s\" value=\"\"><br>", BloodBankLogic.PRIVATELY_OWNED);
-             out.printf("<select name=\"%s\" >", BloodBankLogic.PRIVATELY_OWNED);
+            out.printf("<select name=\"%s\" >", BloodBankLogic.PRIVATELY_OWNED);
             out.println("<option value=\"1\">True</option>");
             out.println("<option value=\"0\">False</option>");
-            out.println("</select>");
+            out.println("</select><br>");
             out.println("<br>");
             out.println("Established:<br>");
             out.printf("<input type=\"datetime-local\" step=\"1\" name=\"%s\" value=\"\"><br>", BloodBankLogic.ESTABLISHED);
