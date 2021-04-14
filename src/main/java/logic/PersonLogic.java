@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.ObjIntConsumer;
-import static logic.AccountLogic.NAME;
 
 /**
  *
@@ -104,13 +103,9 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
         return get(() -> dal().findContaining(search));
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public List<String> getColumnNames() {
-        return Arrays.asList("first_name", "last_lame", "phone", "address", "birth", "id");
+        return Arrays.asList( "ID","First_Name", "Last_Name", "Phone", "Address", "Birth" );
     }
 
     /**
@@ -119,7 +114,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
      */
     @Override
     public List<String> getColumnCodes() {
-        return Arrays.asList(FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH, ID);
+        return Arrays.asList( ID, FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH );
     }
 
     /**
@@ -129,7 +124,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
      */
     @Override
     public List<?> extractDataAsList(Person e) {
-        return Arrays.asList(e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()), e.getId());
+        return Arrays.asList( e.getId(),e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()));
     }
 
     /**

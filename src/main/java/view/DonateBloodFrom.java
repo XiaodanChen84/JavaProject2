@@ -182,8 +182,9 @@ public class DonateBloodFrom extends HttpServlet {
   
         PersonLogic aLogic = LogicFactory.getFor("Person");
         BloodDonationLogic bdLogic = LogicFactory.getFor("BloodDonation");
-        DonationRecordLogic logic = LogicFactory.getFor("DonationRecord");
         BloodBankLogic bkLogic = LogicFactory.getFor("BloodBank");
+        DonationRecordLogic logic = LogicFactory.getFor("DonationRecord");
+      
 
         try {
             //Here we will add the persFon to DB first, then get the ID and store it.
