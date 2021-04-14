@@ -345,7 +345,7 @@ public class BloodBankLogicTest {
         assertEquals( expectedEntity.getOwner().getId(), list.get( 1 ) );
         assertEquals( expectedEntity.getName(), list.get( 2 ) );       
         assertEquals( expectedEntity.getPrivatelyOwned(), list.get( 3 ) );
-        assertEquals( expectedEntity.getEstablished(), list.get( 4 ) );
+        assertEquals( logic.convertDateToString(expectedEntity.getEstablished()), list.get( 4 ) );
         assertEquals( expectedEntity.getEmplyeeCount(), list.get( 5 ) );
     }
     
