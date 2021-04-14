@@ -4,6 +4,7 @@ import common.EMFactory;
 import common.TomcatStartUp;
 import common.ValidationException;
 import dal.DataAccessLayer;
+import entity.Account;
 import entity.BloodBank;
 import entity.Person;
 import java.time.Duration;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
- * @author Admin
+ * @author Jing Zhao
  */
 public class BloodBankLogicTest {
 
@@ -35,9 +36,7 @@ public class BloodBankLogicTest {
 
     public BloodBankLogicTest() {
     }
-    
-
-           
+            
 
     @BeforeAll
     public static void setUpClass() throws Exception {
@@ -101,11 +100,10 @@ public class BloodBankLogicTest {
     }
     
    private void assertBloodBankEquals(BloodBank expected, BloodBank actual, boolean hasDependency){
-       // assertEquals(expected.getId(), actual.getId());
+
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getPrivatelyOwned(), actual.getPrivatelyOwned());
         assertEquals(expected.getEstablished(), actual.getEstablished());
-        //assertEquals(expected.getOwner(), actual.getOwner());
         assertEquals(expected.getEmplyeeCount(), actual.getEmplyeeCount());
         if(hasDependency){
             assertEquals(expected.getOwner().getId(), actual.getOwner().getId());
@@ -122,7 +120,6 @@ public class BloodBankLogicTest {
     final void testGetBloodBankWithName() {
         BloodBank returnedBloodBank = logic.getBloodBankWithName(expectedEntity.getName());
         assertBloodBankEquals(expectedEntity, returnedBloodBank);
-
     }
 
     @Test
@@ -175,6 +172,25 @@ public class BloodBankLogicTest {
         }
         assertEquals(1, foundFull, "if zero means not found, if more than one means duplicate");
     }
+    
+    @Test
+    final void testSearch() {
+        int foundFull = 0;
+        String searchString = expectedEntity.getName().substring( 3 );
+        //in account we only search for display name and user, this is completely based on your design for other entities.
+        List<BloodBank> returnedBanks = logic.search( searchString );
+        for( BloodBank bloodBank: returnedBanks ) {
+            //all accounts must contain the substring
+            assertTrue( bloodBank.getName().contains( searchString ) ||bloodBank.getName().contains(searchString));
+            //exactly one account must be the same
+            if( bloodBank.getId().equals( expectedEntity.getId() ) ){
+                assertBloodBankEquals( expectedEntity, bloodBank );
+                foundFull++;
+            }
+        }
+        assertEquals( 1, foundFull, "if zero means not found, if more than one means duplicate" );
+    }
+
     
     @Test
     final void testCreateEntityAndAdd(){

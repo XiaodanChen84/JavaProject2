@@ -23,6 +23,7 @@ public class BloodBankDAL extends GenericDAL<BloodBank> {
      */
     @Override
     public List<BloodBank> findAll() {
+        // named query defined BloodBank entity
         return findResults("BloodBank.findAll", null);
 
     }
@@ -35,6 +36,9 @@ public class BloodBankDAL extends GenericDAL<BloodBank> {
      */
     @Override
     public BloodBank findById(int bankId) {
+        //first argument is a name given to a named query defined in  BloodBank  entity
+        //second argument is map used for parameter substitution.
+        //in this case the parameter is named "bankId" and value for it is put in map
         Map<String, Object> map = new HashMap<>();
         map.put("bankId", bankId);
         return findResult("BloodBank.findByBankId", map);

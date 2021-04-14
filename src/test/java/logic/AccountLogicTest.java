@@ -377,4 +377,7 @@ class AccountLogicTest {
         assertEquals( expectedEntity.getUsername(), list.get( 3 ) );
         assertEquals( expectedEntity.getPassword(), list.get( 4 ) );
     }
+    
+    
+    
 }
