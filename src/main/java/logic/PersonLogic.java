@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.ObjIntConsumer;
-import static logic.AccountLogic.NAME;
 
 /**
  *
@@ -61,20 +60,12 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
     public List<Person> search( String search ) {
         return get( () -> dal().findContaining( search ) );
     }
-    
-//    @Override
-//    public List<String> getColumnNames() {
-//        return Arrays.asList( "first_name", "last_lame", "phone", "address", "birth", "id" );
-//    }
+
     @Override
     public List<String> getColumnNames() {
         return Arrays.asList( "ID","First_Name", "Last_Name", "Phone", "Address", "Birth" );
     }
 
-//    @Override
-//    public List<String> getColumnCodes() {
-//        return Arrays.asList( FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH, ID );
-//    }
     @Override
     public List<String> getColumnCodes() {
         return Arrays.asList( ID, FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH );
