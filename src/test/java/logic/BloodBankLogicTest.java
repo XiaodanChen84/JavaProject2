@@ -181,7 +181,7 @@ public class BloodBankLogicTest {
         List<BloodBank> returnedBanks = logic.search( searchString );
         for( BloodBank bloodBank: returnedBanks ) {
             //all accounts must contain the substring
-            assertTrue( bloodBank.getName().contains( searchString ) ||bloodBank.getName().contains(searchString));
+            assertTrue( bloodBank.getName().contains( searchString ));
             //exactly one account must be the same
             if( bloodBank.getId().equals( expectedEntity.getId() ) ){
                 assertBloodBankEquals( expectedEntity, bloodBank );

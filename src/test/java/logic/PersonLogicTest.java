@@ -3,6 +3,7 @@ package logic;
 import common.EMFactory;
 import common.TomcatStartUp;
 import common.ValidationException;
+import entity.Account;
 import entity.Person;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,12 +13,12 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import javax.persistence.EntityManager;
-import static logic.PersonLogic.FIRST_NAME;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -141,24 +142,24 @@ class PersonLogicTest {
     @Test
     final void testGetColumnNames() {
         List<String> list = logic.getColumnNames();
-        assertEquals( Arrays.asList( "first_name", "last_lame", "phone", "address", "birth", "id" ), list );
+        assertEquals( Arrays.asList( "ID","First_Name", "Last_Name", "Phone", "Address", "Birth" ), list );
     }
 
     @Test
     final void testGetColumnCodes() {
         List<String> list = logic.getColumnCodes();
-        assertEquals( Arrays.asList( PersonLogic.FIRST_NAME, PersonLogic.LAST_NAME, PersonLogic.PHONE, PersonLogic.ADDRESS, PersonLogic.BIRTH, PersonLogic.ID), list );
+        assertEquals( Arrays.asList( PersonLogic.ID,PersonLogic.FIRST_NAME, PersonLogic.LAST_NAME, PersonLogic.PHONE, PersonLogic.ADDRESS, PersonLogic.BIRTH), list );
     }
 
     @Test
     final void testExtractDataAsList() {
         List<?> list = logic.extractDataAsList( expectedEntity );
-        assertEquals( expectedEntity.getFirstName(), list.get( 0 ) );
-        assertEquals( expectedEntity.getLastName(), list.get( 1 ) );
-        assertEquals( expectedEntity.getPhone(), list.get( 2 ) );
-        assertEquals( expectedEntity.getAddress(), list.get( 3 ) );
-        assertEquals( logic.convertDateToString(expectedEntity.getBirth()), list.get( 4 ) );
-        assertEquals( expectedEntity.getId(), list.get( 5 ) );
+        assertEquals( expectedEntity.getFirstName(), list.get( 1) );
+        assertEquals( expectedEntity.getLastName(), list.get( 2 ) );
+        assertEquals( expectedEntity.getPhone(), list.get( 3 ) );
+        assertEquals( expectedEntity.getAddress(), list.get( 4 ) );
+        assertEquals( logic.convertDateToString(expectedEntity.getBirth()), list.get( 5 ) );
+        assertEquals( expectedEntity.getId(), list.get( 0) );
     }
     
     @Test
@@ -344,5 +345,25 @@ class PersonLogicTest {
         assertEquals( sampleMap.get( PersonLogic.PHONE )[ 0 ], returnedPerson.getPhone());
         assertEquals( sampleMap.get( PersonLogic.ADDRESS )[ 0 ], returnedPerson.getAddress());
         assertEquals( sampleMap.get( PersonLogic.BIRTH )[ 0 ], logic.convertDateToString(returnedPerson.getBirth()));
+    }
+    
+    
+    @Test
+    final void testSearch() {
+        int foundFull = 0;
+        //search for a substring of one of the fields in the expectedAccount
+        String searchString = expectedEntity.getFirstName().substring( 3 );
+        //in account we only search for display name and user, this is completely based on your design for other entities.
+        List<Person> returnedPerson = logic.search( searchString );
+        for( Person person: returnedPerson ) {
+            //all accounts must contain the substring
+            assertTrue( person.getFirstName().contains( searchString ));
+            //exactly one account must be the same
+            if( person.getId().equals( expectedEntity.getId() ) ){
+                assertPersonEquals( expectedEntity, person );
+                foundFull++;
+            }
+        }
+        assertEquals( 1, foundFull, "if zero means not found, if more than one means duplicate" );
     }
 }
