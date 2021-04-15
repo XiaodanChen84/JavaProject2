@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
-import org.hibernate.annotations.common.util.impl.Log;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -442,5 +440,24 @@ public class DonationRecordLogicTest {
             assertEquals( expected.getPerson().getId(), actual.getPerson().getId());
             assertEquals( expected.getBloodDonation().getId(), actual.getBloodDonation().getId());
         }
+    }
+    
+        @Test
+    final void testSearch() {
+        int foundFull = 0;
+        //search for a substring of one of the fields in the expectedAccount
+        String searchString = expectedEntity.getHospital().substring( 3 );
+        //in account we only search for display name and user, this is completely based on your design for other entities.
+        List<DonationRecord> returnedRecord = drLogic.search( searchString );
+        for( DonationRecord donationRecord: returnedRecord ) {
+            //all accounts must contain the substring
+            assertTrue( donationRecord.getHospital().contains( searchString ) );
+            //exactly one account must be the same
+            if( donationRecord.getId().equals( expectedEntity.getId() ) ){
+                assertDonationRecordEquals( expectedEntity, donationRecord );
+                foundFull++;
+            }
+        }
+        assertEquals( 1, foundFull, "if zero means not found, if more than one means duplicate" );
     }
 }

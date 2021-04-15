@@ -17,6 +17,7 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -293,6 +294,25 @@ class BloodDonationTest {
         testMap.replace(BloodDonationLogic.CREATED, new String[]{});
         assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
 
+    }
+    
+    
+    @Test
+    final void testSearch() {
+        int foundFull = 0;
+        String searchString = String.valueOf(expectedEntity.getMilliliters()).substring(1);
+        //in account we only search for display name and user, this is completely based on your design for other entities.
+        List<BloodDonation> returnedDonations = logic.search( searchString );
+        for( BloodDonation bloodDonation: returnedDonations ) {
+            //all accounts must contain the substring
+            assertTrue( String.valueOf(bloodDonation.getMilliliters()).contains( searchString ));
+            //exactly one account must be the same
+            if( bloodDonation.getId().equals( expectedEntity.getId() ) ){
+                assertBloodDonationEquals( expectedEntity, bloodDonation );
+                foundFull++;
+            }
+        }
+        assertEquals( 1, foundFull, "if zero means not found, if more than one means duplicate" );
     }
 
 }
