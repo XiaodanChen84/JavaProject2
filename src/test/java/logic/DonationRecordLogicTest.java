@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,11 +55,12 @@ public class DonationRecordLogicTest {
         
         // Create Person and BloodDonation entities for the purposes of testing only
         // instance of BloodBank may also be required if BloodDonation dependency does not already exist in DB
-        
+        TypedQuery<Person> tq = em.createNamedQuery("Person.findAll", Person.class);
+        List<Person> persons = tq.getResultList();
         // Check if the Person dependency exists on DB already
-        Person person = em.find(Person.class, 1);
+        Person person = null;
         // If result is null, create the entity and persist it
-        if (person == null) {
+        if (persons.isEmpty()) {
             person = new Person();
             person.setFirstName("first");
             person.setLastName("last");
@@ -67,11 +69,16 @@ public class DonationRecordLogicTest {
             person.setBirth(drLogic.convertStringToDate("2000-01-01 12:00:00"));
             // Persist the dependency
             em.persist(person);
+        }else{
+            person = persons.get(0);
         }
         
-        BloodBank bb = em.find(BloodBank.class, 1);
+        TypedQuery<BloodBank> tq2 = em.createNamedQuery("BloodBank.findAll", BloodBank.class);
+        List<BloodBank> banks = tq2.getResultList();
+        
+        BloodBank bb = null;
         // If result is null, create the entity and persist it
-        if (bb == null) {
+        if (banks.isEmpty()) {
             bb = new BloodBank();
             bb.setName("JUNIT");
             bb.setPrivatelyOwned(true);
@@ -81,12 +88,17 @@ public class DonationRecordLogicTest {
             em.persist(bb);
             
             System.out.println(bb.toString());
+        }else{
+            bb = banks.get(0);
         }
-        
+          
+        TypedQuery<BloodDonation> tq3Query = em.createNamedQuery("BloodDonation.findAll", BloodDonation.class);
+        List<BloodDonation> blood = tq3Query.getResultList();
+       
         // Check if the BloodDonation dependency exists on DB already
-        BloodDonation bd = em.find(BloodDonation.class, 1);
+        BloodDonation bd =null;
         // If result is null, create the entity and persist it
-        if (bd == null) {
+        if (blood.isEmpty()) {
             bd = new BloodDonation();
             bd.setBloodBank(bb);
             bd.setMilliliters(100);
@@ -95,6 +107,8 @@ public class DonationRecordLogicTest {
             bd.setCreated(drLogic.convertStringToDate("1111-11-11 11:11:11"));
             // Persist the dependency
             em.persist(bd);
+        }else{
+            bd =blood.get(0);
         }
         
         // Finally, create the DonationRecord Entity to be tested        

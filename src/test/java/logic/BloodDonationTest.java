@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,6 +31,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Shariar (Shawn) Emami
  */
+
 class BloodDonationTest {
 
     private BloodDonationLogic logic;
@@ -61,9 +64,11 @@ class BloodDonationTest {
         em.getTransaction().begin();
         //check if the depdendecy exists on DB already
         //em.find takes two arguments, the class type of return result and the primery key.
-        BloodBank bb = em.find(BloodBank.class, 1);
+        TypedQuery<BloodBank> tq = em.createNamedQuery("BloodBank.findAll", BloodBank.class);
+        List<BloodBank> bloodBank = tq.getResultList();
+        BloodBank bb =null;
         //if result is null create the entity and persist it
-        if (bb == null) {
+        if (bloodBank.isEmpty()) {
             //cearet object
             bb = new BloodBank();
             bb.setName("NIT");
@@ -72,6 +77,8 @@ class BloodDonationTest {
             bb.setEmplyeeCount(111);
             //persist the dependency first
             em.persist(bb);
+        }else{
+            bb = bloodBank.get(0);
         }
 
         //create the desired entity
@@ -260,11 +267,6 @@ class BloodDonationTest {
         assertThrows(NullPointerException.class, () -> logic.createEntity(testMap));
         testMap.replace(BloodDonationLogic.ID, new String[]{});
         assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
-
-//        fillMap.accept(testMap);
-//        //bankID can be null
-//        testMap.replace(BloodDonationLogic.BANK_ID, new String[]{});
-//        assertThrows(IndexOutOfBoundsException.class, () -> logic.createEntity(testMap));
 
         fillMap.accept(testMap);
         //MILLILITERS can not be null

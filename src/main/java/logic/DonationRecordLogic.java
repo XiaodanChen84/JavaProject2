@@ -115,7 +115,8 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
         entity.setTested(tested);
         entity.setAdministrator(administrator);
         entity.setHospital(hospital);
-        entity.setCreated(convertStringToDate(date));
+        entity.setCreated(convertStringToDate(date.replace("T", " ")));
+        
 
         return entity;
     }
