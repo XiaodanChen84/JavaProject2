@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  *
- * @author xiaod
+ * @author Xiaodan Chen
  */
 class PersonLogicTest {
 

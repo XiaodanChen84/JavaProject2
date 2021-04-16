@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
  * junit. it is commented because some components need to be made first. You
  * will have to import everything you need.
  *
- * @author Shariar (Shawn) Emami
+ * @author Shariar (Shawn) Emami, Danping Tang
  */
 
 class BloodDonationTest {
