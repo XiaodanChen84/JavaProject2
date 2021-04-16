@@ -207,6 +207,7 @@ public class DonateBloodFrom extends HttpServlet {
             logic.add(dRecord);
 
         } catch (Exception ex) {
+            log("",ex);
             errorMessage = ex.getMessage();
         }
 
