@@ -2,7 +2,6 @@ package logic;
 
 import common.ValidationException;
 import dal.BloodBankDAL;
-import entity.Account;
 import entity.BloodBank;
 import java.util.Arrays;
 import java.util.Date;
@@ -25,15 +24,15 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     public static final String ID = "id";
 
     /**
-     * 
+     * constructor to call super class
      */
     BloodBankLogic() {
         super(new BloodBankDAL());
     }
 
     /**
-     * 
-     * @return findAll
+     *
+     * @return findAll from dal
      */
     @Override
     public List<BloodBank> getAll() {
@@ -41,9 +40,9 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     }
 
     /**
-     * 
-     * @param id
-     * @return 
+     *
+     * @param id int
+     * @return get id from dal
      */
     @Override
     public BloodBank getWithId(int id) {
@@ -51,54 +50,54 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     }
 
     /**
-     * 
-     * @param name
-     * @return 
+     *
+     * @param name String
+     * @return get name from dal
      */
     public BloodBank getBloodBankWithName(String name) {
         return get(() -> dal().findByName(name));
     }
 
     /**
-     * 
-     * @param privatelyOwned
-     * @return 
+     *
+     * @param privatelyOwned boolean
+     * @return get privatelyOwned from dal
      */
     public List<BloodBank> getBloodBankWithPrivatelyOwned(boolean privatelyOwned) {
         return get(() -> dal().findByPrivatelyOwned(privatelyOwned));
     }
 
     /**
-     * 
-     * @param established
-     * @return 
+     *
+     * @param established Date
+     * @return get established from dal
      */
     public List<BloodBank> getBloodBankWithEstablished(Date established) {
         return get(() -> dal().findByEstablished(established));
     }
 
     /**
-     * 
-     * @param ownerId
-     * @return 
+     *
+     * @param ownerId int
+     * @return get ownerId from dal
      */
     public BloodBank getBloodBanksWithOwner(int ownerId) {
         return get(() -> dal().findByOwner(ownerId));
     }
 
     /**
-     * 
-     * @param count
-     * @return 
+     *
+     * @param count int
+     * @return get count from dal
      */
     public List<BloodBank> getBloodBanksWithEmplyeeCount(int count) {
         return get(() -> dal().findByEmplyeeCount(count));
     }
 
     /**
-     * 
-     * @param search
-     * @return 
+     *
+     * @param search String
+     * @return get search from dal
      */
     @Override
     public List<BloodBank> search(String search) {
@@ -106,9 +105,9 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     }
 
     /**
-     * 
-     * @param parameterMap
-     * @return 
+     *
+     * @param parameterMap Map
+     * @return entity
      */
     @Override
     public BloodBank createEntity(Map<String, String[]> parameterMap) {
@@ -158,8 +157,8 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return array list
      */
     @Override
     public List<String> getColumnNames() {
@@ -168,8 +167,8 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return array list
      */
     @Override
     public List<String> getColumnCodes() {
@@ -178,9 +177,9 @@ public class BloodBankLogic extends GenericLogic<BloodBank, BloodBankDAL> {
     }
 
     /**
-     * 
-     * @param e
-     * @return 
+     *
+     * @param e List
+     * @return array list
      */
     @Override
     public List<?> extractDataAsList(BloodBank e) {

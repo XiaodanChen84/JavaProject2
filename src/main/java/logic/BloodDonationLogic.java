@@ -12,7 +12,7 @@ import common.ValidationException;
 
 /**
  *
- * @author danping tang
+ * @author Danping Tang
  */
 public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonationDAL> {
 
@@ -26,26 +26,26 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
     public static final String RHESUS_FACTOR = "rhesus_factor";
     public static final String CREATED = "created";
     public static final String ID = "id";
-    
+
     /**
-     * 
+     * constructor to call super class
      */
     BloodDonationLogic() {
         super(new BloodDonationDAL());
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return array list
      */
     @Override
     public List<String> getColumnNames() {
         return Arrays.asList("ID", "Bank_id", "Milliliters", "Blood_group", "Rhesus_factor", "Created");
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return array list
      */
     @Override
     public List<String> getColumnCodes() {
@@ -60,13 +60,13 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
      */
     @Override
     public List<?> extractDataAsList(BloodDonation e) {
-            return Arrays.asList(e.getId(), e.getBloodBank()==null?"null":e.getBloodBank().getId(), e.getMilliliters(), e.getBloodGroup().toString(), e.getRhd().getSymbol(),convertDateToString(e.getCreated()));
+        return Arrays.asList(e.getId(), e.getBloodBank() == null ? "null" : e.getBloodBank().getId(), e.getMilliliters(), e.getBloodGroup().toString(), e.getRhd().getSymbol(), convertDateToString(e.getCreated()));
     }
-    
+
     /**
-     * 
-     * @param parameterMap
-     * @return 
+     *
+     * @param parameterMap map
+     * @return bdEntity
      */
     @Override
     public BloodDonation createEntity(Map<String, String[]> parameterMap) {
@@ -83,94 +83,93 @@ public class BloodDonationLogic extends GenericLogic<BloodDonation, BloodDonatio
                 throw new ValidationException(ex);
             }
         }
-        
+
         String created = parameterMap.get(CREATED)[0];
         created = created.replaceAll("T", " ");
-        
+
         bdEntity.setMilliliters(Integer.parseInt(parameterMap.get(MILLILITERS)[0]));
         bdEntity.setBloodGroup(BloodGroup.valueOf(parameterMap.get(BLOOD_GROUP)[0]));
         bdEntity.setRhd(RhesusFactor.getRhesusFactor(parameterMap.get(RHESUS_FACTOR)[0]));
         bdEntity.setCreated(convertStringToDate(created));
-        
+
         // no string,no need to validate for bollod_group,reh ENUM,milliters,datetime  
         return bdEntity;
     }
-    
+
     /**
-     * 
-     * @param search
-     * @return 
+     *
+     * @param search String
+     * @return get search from dal
      */
     @Override
-    public List<BloodDonation> search( String search ) {
-        return get( () -> dal().findContaining( search ) );
+    public List<BloodDonation> search(String search) {
+        return get(() -> dal().findContaining(search));
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return get findAll from dal
      */
     @Override
     public List<BloodDonation> getAll() {
         return get(() -> dal().findAll());
     }
-    
+
     /**
-     * 
-     * @param id
-     * @return 
+     *
+     * @param id int
+     * @return get id from dal
      */
     @Override
     public BloodDonation getWithId(int id) {
         return get(() -> dal().findById(id));
     }
-    
+
     /**
-     * 
-     * @param milliliters
-     * @return 
+     *
+     * @param milliliters int
+     * @return get milliliters from dal
      */
     public List<BloodDonation> getBloodDonationWithMilliliters(int milliliters) {
         return get(() -> dal().findByMilliliters(milliliters));
 
     }
-    
+
     /**
-     * 
-     * @param bloodGroup
-     * @return 
+     *
+     * @param bloodGroup BloodGroup list
+     * @return get bloodGroup from dal
      */
     public List<BloodDonation> getBloodDonationWithBloodGroup(BloodGroup bloodGroup) {
         return get(() -> dal().findByBloodGroup(bloodGroup));
     }
-    
+
     /**
-     * 
-     * @param created
-     * @return 
+     *
+     * @param created Date
+     * @return
      */
     public List<BloodDonation> getBloodDonationWithCreated(Date created) {
         return get(() -> dal().findByCreated(created));
 
     }
-    
+
     /**
-     * 
-     * @param rhd
-     * @return 
+     *
+     * @param rhd RhesusFactor list
+     * @return get rhd from dal
      */
     public List<BloodDonation> getBloodDonationsWithRhd(RhesusFactor rhd) {
         return get(() -> dal().findByRhd(rhd));
     }
-    
+
     /**
-     * 
-     * @param bankId
-     * @return 
+     *
+     * @param bankId int
+     * @return get bankId from dal
      */
     public List<BloodDonation> getBloodDonationsWithBloodBank(int bankId) {
         return get(() -> dal().findByBloodBank(bankId));
     }
 
 }
-

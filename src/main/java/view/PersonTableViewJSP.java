@@ -19,7 +19,7 @@ import logic.PersonLogic;
 
 /**
  *
- * @author Admin
+ * @author Xiaodan Chen
  */
 //@WebServlet(name = "PersonTableJSP", urlPatterns = {"/PersonTableJSP"})
 @WebServlet(name = "PersonTableJSP", urlPatterns = {"/PersonTableJSP"})

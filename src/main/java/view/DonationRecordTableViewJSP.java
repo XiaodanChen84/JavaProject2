@@ -22,7 +22,7 @@ import logic.LogicFactory;
 
 /**
  *
- * @author Matte G
+ * @author Gabriel Matte
  */
 @WebServlet(name = "DonationRecordTableJSP", urlPatterns = {"/DonationRecordTableJSP"})
 public class DonationRecordTableViewJSP extends HttpServlet {

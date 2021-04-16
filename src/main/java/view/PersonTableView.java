@@ -16,7 +16,7 @@ import logic.PersonLogic;
 
 /**
  *
- * @author xiaodan
+ * @author Xiaodan Chen
  */
 
 @WebServlet(name = "PersonTable", urlPatterns = {"/PersonTable"})

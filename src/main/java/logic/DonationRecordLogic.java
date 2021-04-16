@@ -26,49 +26,101 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
     public static final String CREATED = "created";
     public static final String ID = "record_id";
 
+    /**
+     * constructor to call super class
+     */
     DonationRecordLogic() {
         super(new DonationRecordDAL());
     }
 
+    /**
+     *
+     * @return get findAll from dal
+     */
     @Override
     public List<DonationRecord> getAll() {
         return get(() -> dal().findAll());
     }
 
+    /**
+     *
+     * @param id int
+     * @return get id from dal
+     */
     @Override
     public DonationRecord getWithId(int id) {
         return get(() -> dal().findById(id));
     }
 
+    /**
+     *
+     * @param tested boolean
+     * @return get tested from dal
+     */
     public List<DonationRecord> getDonationRecordWithTested(boolean tested) {
         return get(() -> dal().findByTested(tested));
     }
 
+    /**
+     *
+     * @param administrator String
+     * @return administrator from dal
+     */
     public List<DonationRecord> getDonationRecordWithAdministrator(String administrator) {
         return get(() -> dal().findByAdministrator(administrator));
     }
 
+    /**
+     *
+     * @param username String
+     * @return get username from dal
+     */
     public List<DonationRecord> getDonationRecordWithHospital(String username) {
         return get(() -> dal().findByHospital(username));
     }
 
+    /**
+     *
+     * @param created Date
+     * @return get created from dal
+     */
     public List<DonationRecord> getDonationRecordWithCreated(Date created) {
         return get(() -> dal().findByCreated(created));
     }
 
+    /**
+     *
+     * @param personId int
+     * @return get personId from dal
+     */
     public List<DonationRecord> getDonationRecordWithPerson(int personId) {
         return get(() -> dal().findByPerson(personId));
     }
 
+    /**
+     *
+     * @param donationId int
+     * @return get donationId from dal
+     */
     public List<DonationRecord> getDonationRecordWithDonation(int donationId) {
         return get(() -> dal().findByDonation(donationId));
     }
-    
+
+    /**
+     *
+     * @param search String
+     * @return get search from dal
+     */
     @Override
-    public List<DonationRecord> search( String search ) {
-        return get( () -> dal().findContaining( search ) );
+    public List<DonationRecord> search(String search) {
+        return get(() -> dal().findContaining(search));
     }
 
+    /**
+     *
+     * @param parameterMap Map
+     * @return entity
+     */
     @Override
     public DonationRecord createEntity(Map<String, String[]> parameterMap) {
 
@@ -116,21 +168,33 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
         entity.setAdministrator(administrator);
         entity.setHospital(hospital);
         entity.setCreated(convertStringToDate(date.replace("T", " ")));
-        
 
         return entity;
     }
 
+    /**
+     *
+     * @return array list
+     */
     @Override
     public List<String> getColumnNames() {
         return Arrays.asList("Record ID", "Person ID", "Donation ID", "Tested", "Administrator", "Hospital", "Created");
     }
 
+    /**
+     *
+     * @return array list
+     */
     @Override
     public List<String> getColumnCodes() {
         return Arrays.asList(ID, PERSON_ID, DONATION_ID, TESTED, ADMINISTRATOR, HOSPITAL, CREATED);
     }
 
+    /**
+     *
+     * @param e List
+     * @return array list
+     */
     @Override
     public List<?> extractDataAsList(DonationRecord e) {
 
@@ -139,11 +203,21 @@ public class DonationRecordLogic extends GenericLogic<DonationRecord, DonationRe
                 e.getAdministrator(), e.getHospital(), convertDateToString(e.getCreated()));
     }
 
+    /**
+     *
+     * @param id int
+     * @return p
+     */
     public Person getPersonForDonationRecord(int id) {
         Person p = new Person(id);
         return p;
     }
 
+    /**
+     *
+     * @param id int
+     * @return bd
+     */
     public BloodDonation getBloodDonationForDonationRecord(int id) {
         BloodDonation bd = new BloodDonation(id);
         return bd;

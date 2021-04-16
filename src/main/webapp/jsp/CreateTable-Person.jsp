@@ -18,26 +18,28 @@
     </head>
     <body>
         <div style="text-align: center;">
-        <div style="display: inline-block; text-align: left;">
-         <form method="post">
-         First Name:<br>
-         <input type="text" name="first_name" value=""><br>
-         <br>
-         Last Name:<br>
-         <input type="text" name="last_name" value=""><br>
-         <br>
-         Phone:<br>
-         <input type="text" name="phone" value=""><br>
-         <br>
-         Address:<br>
-         <input type="text" name="address" value=""><br>
-         <br>
-        Birthday:<br>
-        <input type="datetime-local" step="1" name="birth" value=""><br>
-        <br>
-        <input type="submit" name="view" value="Add and View">
-        <input type="submit" name="add" value="Add">
-        </form>
-    </body>
+            <div style="display: inline-block; text-align: left;">
+                <form method="post">
+                    First Name:<br>
+                    <input type="text" name="first_name" value=""><br>
+                    <br>
+                    Last Name:<br>
+                    <input type="text" name="last_name" value=""><br>
+                    <br>
+                    Phone:<br>
+                    <input type="text" name="phone" value=""><br>
+                    <br>
+                    Address:<br>
+                    <input type="text" name="address" value=""><br>
+                    <br>
+                    Birthday:<br>
+                    <input type="datetime-local" step="1" name="birth" value=""><br>
+                    <br>
+                    <input type="submit" name="view" value="Add and View">
+                    <input type="submit" name="add" value="Add">
+                    </div>
+                    </div>
+                </form>
+                </body>
 
-</html>
+                </html>

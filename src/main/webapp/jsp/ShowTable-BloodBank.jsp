@@ -20,7 +20,7 @@
         <script>
             var isEditActive = false;
             var activeEditID = -1;
-            
+
             function createTextInput(text, name) {
                 var node = document.createElement("input");
                 node.name = name;
@@ -29,15 +29,15 @@
                 node.value = text;
                 return node;
             }
-            
-            function convertCellToInput( id, readOnly, name){
+
+            function convertCellToInput(id, readOnly, name) {
                 var idCell = document.getElementById(id);
                 var idInput = createTextInput(idCell.innerText, name);
                 idInput.readOnly = readOnly;
                 idCell.innerText = null;
                 idCell.appendChild(idInput);
             }
-            
+
             window.onload = function () {
                 var elements = document.getElementsByClassName("edit");
                 for (let i = 0; i < elements.length; i++) {
@@ -51,18 +51,18 @@
                         }
                         isEditActive = true;
                         activeEditID = id;
-                        this.value = "Update";                        
-                        <c:forEach var="code" items="${columnCode}">
-                            convertCellToInput( ++id, false, "${code}");
-                        </c:forEach>
+                        this.value = "Update";
+            <c:forEach var="code" items="${columnCode}">
+                        convertCellToInput(++id, false, "${code}");
+            </c:forEach>
                     };
                 }
             };
         </script>    
     </head>
-    
+
     <body>
-       <!-- https://www.w3schools.com/css/css_table.asp -->
+        <!-- https://www.w3schools.com/css/css_table.asp -->
         <form>
             <table style="vertical-align:middle">
                 <tr>
@@ -76,9 +76,9 @@
                 <tr>
                     <th><input type="submit" name="delete" value="Delete" /></th>
                     <th>Edit</th>
-                    <c:forEach var="name" items="${columnName}">
+                        <c:forEach var="name" items="${columnName}">
                         <th>${name}</th>
-                    </c:forEach>
+                        </c:forEach>
                 </tr>
                 <c:set var="counter" value="-1"/>
                 <c:forEach var="entity" items="${entities}">
@@ -88,8 +88,8 @@
                         </td>
                         <c:set var="counter" value="${counter+1}"/>
                         <td class="edit" id="${counter}" ><input class="update" type="button" name="edit" value="Edit" /></td>
-                        <c:forEach var="data" items="${entity}">
-                            <c:set var="counter" value="${counter+1}"/>
+                            <c:forEach var="data" items="${entity}">
+                                <c:set var="counter" value="${counter+1}"/>
                             <td class="name" id="${counter}" >${data}</td>
                         </c:forEach>
                     </tr>
@@ -97,9 +97,9 @@
                 <tr>
                     <th><input type="submit" name="delete" value="Delete" /></th>
                     <th>Edit</th>
-                    <c:forEach var="name" items="${columnName}">
+                        <c:forEach var="name" items="${columnName}">
                         <th>${name}</th>
-                    </c:forEach>
+                        </c:forEach>
                 </tr>
             </table>
         </form>

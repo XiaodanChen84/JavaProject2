@@ -15,7 +15,7 @@ public abstract class LogicFactory {
     private static final String SUFFIX = "Logic";
 
     /**
-     *
+     * constructor
      */
     private LogicFactory() {
     }
@@ -23,8 +23,8 @@ public abstract class LogicFactory {
     /**
      *
      * @param <T>
-     * @param entityName
-     * @return
+     * @param entityName String
+     * @return null
      */
     //TODO this code is not complete, it is just here for sake of programe working. need to be changed ocmpletely
     public static < T> T getFor(String entityName) {
@@ -40,8 +40,8 @@ public abstract class LogicFactory {
     /**
      *
      * @param <T>
-     * @param type
-     * @return
+     * @param type Class<T>
+     * @return null
      */
     public static <T> T getFor(Class<T> type) {
     

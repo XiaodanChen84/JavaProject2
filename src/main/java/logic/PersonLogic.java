@@ -11,7 +11,7 @@ import java.util.function.ObjIntConsumer;
 
 /**
  *
- * @author xiaod
+ * @author Xiaodan Chen
  */
 public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
@@ -23,7 +23,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
     public static final String ID = "id";
 
     /**
-     *
+     * constructor to call super class
      */
     PersonLogic() {
         super(new PersonDAL());
@@ -31,7 +31,7 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @return
+     * @return findAll
      */
     @Override
     public List<Person> getAll() {
@@ -40,8 +40,8 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @param id
-     * @return
+     * @param id int
+     * @return get id from dal
      */
     @Override
     public Person getWithId(int id) {
@@ -50,8 +50,8 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @param phone
-     * @return
+     * @param phone String
+     * @return get phone from dal
      */
     public List<Person> getPersonWithPhone(String phone) {
         return get(() -> dal().findByPhone(phone));
@@ -59,8 +59,8 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @param firstName
-     * @return
+     * @param firstName String
+     * @return get first name from dal
      */
     public List<Person> getPersonWithFirstName(String firstName) {
         return get(() -> dal().findByFirstName(firstName));
@@ -68,8 +68,8 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @param lastName
-     * @return
+     * @param lastName String
+     * @return get lastName from dal
      */
     public List<Person> getPersonWithLastName(String lastName) {
         return get(() -> dal().findByLastName(lastName));
@@ -77,8 +77,8 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @param address
-     * @return
+     * @param address String
+     * @return get address from dal
      */
     public List<Person> getPersonWithAddress(String address) {
         return get(() -> dal().findByAddress(address));
@@ -86,8 +86,8 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @param birth
-     * @return
+     * @param birth Date
+     * @return get birth from dal
      */
     public List<Person> getPersonWithBirth(Date birth) {
         return get(() -> dal().findByBirth(birth));
@@ -95,42 +95,46 @@ public class PersonLogic extends GenericLogic<Person, PersonDAL> {
 
     /**
      *
-     * @param search
-     * @return
+     * @param search String
+     * @return get search from dal
      */
     @Override
     public List<Person> search(String search) {
         return get(() -> dal().findContaining(search));
     }
 
+    /**
+     *
+     * @return array list
+     */
     @Override
     public List<String> getColumnNames() {
-        return Arrays.asList( "ID","First_Name", "Last_Name", "Phone", "Address", "Birth" );
+        return Arrays.asList("ID", "First_Name", "Last_Name", "Phone", "Address", "Birth");
     }
 
     /**
      *
-     * @return
+     * @return array list
      */
     @Override
     public List<String> getColumnCodes() {
-        return Arrays.asList( ID, FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH );
+        return Arrays.asList(ID, FIRST_NAME, LAST_NAME, PHONE, ADDRESS, BIRTH);
     }
 
     /**
      *
-     * @param e
-     * @return
+     * @param e Person
+     * @return array list
      */
     @Override
     public List<?> extractDataAsList(Person e) {
-        return Arrays.asList( e.getId(),e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()));
+        return Arrays.asList(e.getId(), e.getFirstName(), e.getLastName(), e.getPhone(), e.getAddress(), convertDateToString(e.getBirth()));
     }
 
     /**
      *
-     * @param parameterMap
-     * @return
+     * @param parameterMap Map
+     * @return entity
      */
     @Override
     public Person createEntity(Map<String, String[]> parameterMap) {

@@ -19,7 +19,7 @@ import logic.LogicFactory;
 
 /**
  *
- * @author danping tang
+ * @author Danping Tang
  */
 @WebServlet(name = "CreateBloodDonation", urlPatterns = {"/CreateBloodDonation"})
 public class CreateBloodDonation extends HttpServlet {

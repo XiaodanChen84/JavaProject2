@@ -21,7 +21,7 @@ import logic.PersonLogic;
 
 /**
  *
- * @author Admin
+ * @author Gabriel Matte
  */
 @WebServlet(name = "CreateDonationRecordJSP", urlPatterns = {"/CreateDonationRecordJSP"})
 public class CreateDonationRecordViewJSP extends HttpServlet {
