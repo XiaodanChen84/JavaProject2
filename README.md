@@ -1,2 +1,2 @@
-# JavaProject2
+# Simple Blood Bank Project
 group project
